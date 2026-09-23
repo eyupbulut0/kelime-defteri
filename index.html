@@ -127,10 +127,9 @@
 <div class="margin-line"></div>
 <div class="wrap">
   <header class="top">
-    <div class="brand">isim · şehir · hayvan · bitki</div>
+    <div class="brand">Moon&amp;Cloud Artz</div>
     <button class="theme-toggle" id="themeToggle" type="button">koyu / açık</button>
   </header>
-  <p class="subhead">Bir harf düşer, herkes aynı anda yazar. Sunucu yok — tarayıcın arkadaşınınkine doğrudan bağlanır.</p>
   <div id="statusPill" class="status-pill hidden"></div>
 
   <section id="screen-home">
@@ -194,7 +193,20 @@
     </div>
     <div class="btn-row">
       <button class="btn btn-primary" id="nextRoundBtn" type="button">Sonraki Tur</button>
+      <button class="btn btn-secondary" id="endGameBtn" type="button">Oyunu Sonuçlandır</button>
       <button class="btn btn-secondary" id="leaveBtnReveal" type="button">Odadan Ayrıl</button>
+    </div>
+  </section>
+
+  <section id="screen-gameover" class="hidden">
+    <div class="card" style="text-align:center;">
+      <div class="round-tag">Oyun Bitti</div>
+      <div id="winnerAnnounce" style="font-family:'Caveat',cursive;font-size:2.3rem;font-weight:700;margin:4px 0 16px;"></div>
+      <div class="scoreboard" id="gameoverScoreboard"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="playAgainBtn" type="button">Yeniden Oyna</button>
+      <button class="btn btn-secondary" id="leaveBtnGameover" type="button">Odadan Ayrıl</button>
     </div>
   </section>
 </div>
@@ -248,7 +260,7 @@
   })();
 
   function goScreen(name) {
-    ["home", "lobby", "round", "reveal"].forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
+    ["home", "lobby", "round", "reveal", "gameover"].forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
   }
 
   function genCode() { var c = ""; for (var i = 0; i < 6; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]; return c; }
@@ -428,6 +440,22 @@
       broadcastState();
     } else if (type === "nextRound") {
       finalizeScoresAndReset();
+      broadcastState();
+    } else if (type === "endGame") {
+      state.phase = "gameover";
+      broadcastState();
+    } else if (type === "playAgain") {
+      var ids2 = Object.keys(state.players || {});
+      var resetScores = {};
+      ids2.forEach(function (id) { resetScores[id] = 0; });
+      state.scores = resetScores;
+      state.phase = "lobby";
+      state.round = 0;
+      state.letter = null;
+      state.answers = {};
+      state.invalid = {};
+      state.finishedBy = {};
+      state.finishStartedAt = null;
       broadcastState();
     } else if (type === "requestFlush") {
       // handled locally on host below
@@ -644,6 +672,29 @@
   }
 
   $("nextRoundBtn").addEventListener("click", function () { sendAction("nextRound", {}); });
+  $("endGameBtn").addEventListener("click", function () { sendAction("endGame", {}); });
+  $("playAgainBtn").addEventListener("click", function () { sendAction("playAgain", {}); });
+  $("leaveBtnGameover").addEventListener("click", leaveRoom);
+
+  // ---------- game over ----------
+  function renderGameOver() {
+    goScreen("gameover");
+    if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
+    renderScoreboard("gameoverScoreboard");
+    var pl = state.players || {}, sc = state.scores || {};
+    var ids = Object.keys(pl);
+    var best = -Infinity;
+    ids.forEach(function (id) { if ((sc[id] || 0) > best) best = sc[id] || 0; });
+    var winners = ids.filter(function (id) { return (sc[id] || 0) === best; });
+    var announce;
+    if (winners.length > 1) {
+      announce = "🤝 Berabere! (" + best + " puan)";
+    } else {
+      var wid = winners[0];
+      announce = "🏆 " + esc((pl[wid] && pl[wid].name) || "Oyuncu") + " kazandı!";
+    }
+    $("winnerAnnounce").textContent = announce;
+  }
 
   // ---------- scoreboard + master render ----------
   function renderScoreboard(targetId) {
@@ -657,6 +708,7 @@
     if (!state) return;
     if (state.phase === "round") renderRound();
     else if (state.phase === "reveal") renderReveal();
+    else if (state.phase === "gameover") renderGameOver();
     else renderLobby();
   }
 
