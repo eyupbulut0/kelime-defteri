@@ -439,9 +439,11 @@
       state.invalid[payload.pid][payload.cat] = !state.invalid[payload.pid][payload.cat];
       broadcastState();
     } else if (type === "nextRound") {
+      if (state.phase !== "reveal") return;
       finalizeScoresAndReset();
       broadcastState();
     } else if (type === "endGame") {
+      if (state.phase === "reveal") applyRoundScoring();
       state.phase = "gameover";
       broadcastState();
     } else if (type === "playAgain") {
@@ -486,7 +488,7 @@
     broadcastState();
   }
 
-  function finalizeScoresAndReset() {
+  function applyRoundScoring() {
     var ids = Object.keys(state.players || {});
     var cats = state.categories || CATEGORIES;
     var answers = state.answers || {};
@@ -514,6 +516,10 @@
     });
 
     state.scores = newScores;
+  }
+
+  function finalizeScoresAndReset() {
+    applyRoundScoring();
     state.phase = "lobby";
     state.letter = null;
     state.answers = {};
