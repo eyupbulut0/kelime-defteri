@@ -3,28 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>İsim, Şehir, Hayvan, Bitki — Kelime Defteri</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✏️</text></svg>">
+<title>Moon&amp;Cloud Artz</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#9999;&#65039;</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
   :root {
-    --paper: #EEF2F6;
-    --paper-raised: #FFFFFF;
-    --rule: #B9CBDD;
-    --rule-strong: #93AEC7;
-    --margin: #C0505A;
-    --ink: #223047;
-    --ink-soft: #5B6B85;
-    --accent-green: #2F6B4F;
-    --accent-green-bg: #DFEEE5;
-    --accent-mustard: #B8791E;
-    --danger: #B23A3A;
-    --focus: #3C6E9E;
-    --shadow: rgba(34, 48, 71, 0.14);
-    color-scheme: light;
+    --paper: #EEF2F6; --paper-raised: #FFFFFF; --rule: #B9CBDD; --rule-strong: #93AEC7;
+    --margin: #C0505A; --ink: #223047; --ink-soft: #5B6B85; --accent-green: #2F6B4F;
+    --accent-green-bg: #DFEEE5; --accent-mustard: #B8791E; --danger: #B23A3A; --focus: #3C6E9E;
+    --shadow: rgba(34, 48, 71, 0.14); color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -44,24 +34,24 @@
   html, body { height: 100%; margin: 0; }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   body {
-    background: var(--paper); color: var(--ink);
-    font-family: "Libre Franklin", system-ui, sans-serif;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--paper); color: var(--ink); font-family: "Libre Franklin", system-ui, sans-serif;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
     min-height: 100%;
     background-image: linear-gradient(var(--rule) 1px, transparent 1px);
-    background-size: 100% 40px;
-    background-position: 0 78px;
+    background-size: 100% 40px; background-position: 0 78px;
   }
   .margin-line { position: fixed; top: 0; bottom: 0; left: 48px; width: 2px; background: var(--margin); opacity: 0.55; z-index: 0; }
   @media (max-width: 640px) { .margin-line { left: 22px; } }
   .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 28px 24px 56px 68px; }
   @media (max-width: 640px) { .wrap { padding: 22px 18px 48px 40px; } }
+  body.home-mode .wrap { min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; justify-content: center; padding-top: 40px; padding-bottom: 40px; }
   header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  body.home-mode header.top { justify-content: center; margin-bottom: 22px; }
+  body.home-mode .theme-toggle { position: fixed; top: calc(16px + env(safe-area-inset-top, 0px)); right: 16px; }
   .brand { font-family: "Caveat", cursive; font-weight: 700; font-size: 2.4rem; line-height: 1; color: var(--ink); }
+  body.home-mode .brand { font-size: 3.4rem; text-align: center; }
   .theme-toggle { background: none; border: 1px solid var(--rule-strong); color: var(--ink-soft); border-radius: 20px; padding: 5px 12px; font-size: 0.78rem; font-family: "Libre Franklin", sans-serif; cursor: pointer; }
   .theme-toggle:hover { color: var(--ink); border-color: var(--ink-soft); }
-  .subhead { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 24px; max-width: 48ch; }
   .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
   .status-pill.ok { background: var(--accent-green-bg); color: var(--accent-green); }
   .status-pill.wait { background: color-mix(in srgb, var(--accent-mustard) 18%, transparent); color: var(--accent-mustard); }
@@ -90,7 +80,7 @@
   .code-display { font-family: "IBM Plex Mono", monospace; font-size: 1.9rem; font-weight: 600; letter-spacing: 0.12em; color: var(--focus); background: color-mix(in srgb, var(--focus) 10%, transparent); border: 1px dashed var(--focus); border-radius: 8px; padding: 12px 18px; text-align: center; user-select: all; }
   .code-hint { font-size: 0.8rem; color: var(--ink-soft); margin-top: 8px; text-align: center; }
   .player-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-green-bg); color: var(--accent-green); font-size: 0.82rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin: 0 8px 8px 0; }
-  .player-chip.host::after { content: "· kurucu"; opacity: 0.7; font-weight: 500; }
+  .player-chip.host::after { content: "\00b7 kurucu"; opacity: 0.7; font-weight: 500; }
   .letter-stage { text-align: center; padding: 8px 0 4px; }
   .letter-label { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 2px; }
   .letter-big { font-family: "Caveat", cursive; font-weight: 700; font-size: 6.5rem; line-height: 1; color: var(--margin); display: inline-block; transform: rotate(-2deg); }
@@ -121,6 +111,34 @@
   .hidden { display: none !important; }
   .round-tag { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; margin-bottom: 10px; }
   .small-note { font-size: 0.78rem; color: var(--ink-soft); margin-top: 10px; }
+
+  .game-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .game-card { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 2px var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+  .game-card-head { display: flex; align-items: center; gap: 12px; }
+  .game-icon { font-size: 1.8rem; line-height: 1; }
+  .game-title { font-weight: 700; font-size: 1.05rem; }
+  .game-desc { font-size: 0.82rem; color: var(--ink-soft); margin: -4px 0 0; }
+  .mini-score { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--ink-soft); background: color-mix(in srgb, var(--ink) 5%, transparent); border-radius: 8px; padding: 6px 10px; }
+  .mini-score.has-score { color: var(--ink); }
+
+  .xox-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 280px; margin: 6px auto 4px; }
+  .xox-cell { aspect-ratio: 1 / 1; background: var(--paper); border: 2px solid var(--rule-strong); border-radius: 10px; font-family: "Caveat", cursive; font-size: 2.6rem; font-weight: 700; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .xox-cell:disabled { cursor: default; }
+  .xox-cell.x { color: var(--focus); }
+  .xox-cell.o { color: var(--margin); }
+  .turn-indicator { text-align: center; font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+  .result-banner { text-align: center; font-family: "Caveat", cursive; font-size: 1.9rem; font-weight: 700; margin: 10px 0 4px; color: var(--accent-green); }
+
+  .rps-row { display: flex; gap: 10px; justify-content: center; margin: 8px 0 4px; }
+  .rps-choice { flex: 1; max-width: 110px; padding: 18px 6px; border-radius: 12px; border: 2px solid var(--rule-strong); background: var(--paper); font-size: 2rem; cursor: pointer; text-align: center; }
+  .rps-choice.picked { border-color: var(--focus); background: color-mix(in srgb, var(--focus) 10%, transparent); }
+  .rps-choice:disabled { opacity: 0.5; cursor: default; }
+  .rps-reveal { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 10px 0; }
+  .rps-reveal .pick { font-size: 2.6rem; }
+  .rps-reveal .vs { font-family: "Caveat", cursive; font-size: 1.4rem; color: var(--ink-soft); }
+  .rps-name { font-size: 0.78rem; color: var(--ink-soft); text-align: center; font-weight: 600; }
+
+  .winner-announce { font-family: "Caveat", cursive; font-size: 2.3rem; font-weight: 700; margin: 4px 0 16px; text-align: center; }
 </style>
 </head>
 <body>
@@ -128,85 +146,115 @@
 <div class="wrap">
   <header class="top">
     <div class="brand">Moon&amp;Cloud Artz</div>
-    <button class="theme-toggle" id="themeToggle" type="button">koyu / açık</button>
+    <button class="theme-toggle" id="themeToggle" type="button">koyu / a&ccedil;&#305;k</button>
   </header>
   <div id="statusPill" class="status-pill hidden"></div>
 
   <section id="screen-home">
     <div class="card">
       <div class="row-gap">
-        <label class="field-label" for="nameInput">Adın</label>
-        <input type="text" id="nameInput" maxlength="20" placeholder="ör. Eyüp">
+        <label class="field-label" for="nameInput">Ad&#305;n</label>
+        <input type="text" id="nameInput" maxlength="20" placeholder="&ouml;r. Ey&uuml;p">
       </div>
       <div class="choice-row">
         <button class="btn btn-primary" id="showCreate" type="button">Oda Kur</button>
-        <button class="btn btn-secondary" id="showJoin" type="button">Odaya Katıl</button>
+        <button class="btn btn-secondary" id="showJoin" type="button">Odaya Kat&#305;l</button>
       </div>
       <div id="joinFields" class="hidden">
         <label class="field-label" for="codeInput">Oda kodu</label>
-        <input type="text" id="codeInput" maxlength="6" placeholder="ör. K3P9LZ" style="text-transform:uppercase">
+        <input type="text" id="codeInput" maxlength="6" placeholder="&ouml;r. K3P9LZ" style="text-transform:uppercase">
         <div class="btn-row" style="margin-top:14px;">
-          <button class="btn btn-primary" id="doJoin" type="button">Katıl</button>
+          <button class="btn btn-primary" id="doJoin" type="button">Kat&#305;l</button>
         </div>
       </div>
     </div>
     <p class="small-note" id="homeStatus"></p>
   </section>
 
-  <section id="screen-lobby" class="hidden">
+  <section id="screen-hub" class="hidden">
     <div class="card">
-      <div class="round-tag" id="lobbyRoundTag">Lobide</div>
-      <div class="code-display" id="lobbyCode">------</div>
-      <div class="code-hint">Bu kodu arkadaşına gönder</div>
+      <div class="round-tag">Oda</div>
+      <div class="code-display" id="hubCode">------</div>
+      <div class="code-hint">Bu kodu arkada&#351;&#305;na g&ouml;nder</div>
     </div>
     <div class="card">
       <label class="field-label">Oyuncular</label>
-      <div id="lobbyPlayers"></div>
+      <div id="hubPlayers"></div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="startRoundBtn" type="button">Turu Başlat</button>
-      <button class="btn btn-secondary" id="leaveBtn" type="button">Odadan Ayrıl</button>
+    <label class="field-label" style="margin-bottom:10px;">Oyunlar</label>
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-secondary" id="leaveBtnHub" type="button">Odadan Ayr&#305;l</button>
     </div>
-    <p class="small-note" id="lobbyNote"></p>
   </section>
 
-  <section id="screen-round" class="hidden">
-    <div class="scoreboard" id="roundScoreboard"></div>
+  <section id="screen-ihb-round" class="hidden">
+    <div class="scoreboard" id="ihbRoundScoreboard"></div>
     <div class="card letter-stage">
-      <div class="letter-label" id="roundTag">1. tur</div>
-      <div class="letter-big" id="letterBig">A</div>
-      <div class="timer" id="timerDisplay"></div>
+      <div class="letter-label" id="ihbRoundTag">1. tur</div>
+      <div class="letter-big" id="ihbLetterBig">A</div>
+      <div class="timer" id="ihbTimerDisplay"></div>
     </div>
     <div class="card">
-      <div id="answerRows"></div>
-      <button class="btn btn-primary finish-btn" id="finishBtn" type="button">Bitirdim</button>
-      <p class="small-note" id="roundNote">Cevapların rakibinden, tur bitene kadar gizli kalır.</p>
+      <div id="ihbAnswerRows"></div>
+      <button class="btn btn-primary finish-btn" id="ihbFinishBtn" type="button">Bitirdim</button>
+      <p class="small-note" id="ihbRoundNote">Cevaplar&#305;n rakibinden, tur bitene kadar gizli kal&#305;r.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="ihbEndFromRoundBtn" type="button">Oyunu Sonland&#305;r</button>
     </div>
   </section>
 
-  <section id="screen-reveal" class="hidden">
-    <div class="scoreboard" id="revealScoreboard"></div>
+  <section id="screen-ihb-reveal" class="hidden">
+    <div class="scoreboard" id="ihbRevealScoreboard"></div>
     <div class="card">
-      <div class="round-tag" id="revealRoundTag">1. tur — sonuçlar</div>
-      <div style="overflow-x:auto;"><table class="reveal" id="revealTable"></table></div>
-      <p class="small-note">Kırmızı harf uyarısı olanlar otomatik geçersiz sayıldı. Diğer kelimelere tıklayarak geçerli/geçersiz işaretleyebilirsin.</p>
+      <div class="round-tag" id="ihbRevealRoundTag">1. tur &mdash; sonu&ccedil;lar</div>
+      <div style="overflow-x:auto;"><table class="reveal" id="ihbRevealTable"></table></div>
+      <p class="small-note">K&#305;rm&#305;z&#305; harf uyar&#305;s&#305; olanlar otomatik ge&ccedil;ersiz say&#305;ld&#305;. Di&#287;er kelimelere t&#305;klayarak ge&ccedil;erli/ge&ccedil;ersiz i&#351;aretleyebilirsin.</p>
     </div>
     <div class="btn-row">
-      <button class="btn btn-primary" id="nextRoundBtn" type="button">Sonraki Tur</button>
-      <button class="btn btn-secondary" id="endGameBtn" type="button">Oyunu Sonuçlandır</button>
-      <button class="btn btn-secondary" id="leaveBtnReveal" type="button">Odadan Ayrıl</button>
+      <button class="btn btn-primary" id="ihbNextRoundBtn" type="button">Sonraki Tur</button>
+      <button class="btn btn-secondary" id="ihbEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
+    </div>
+  </section>
+
+  <section id="screen-xox-play" class="hidden">
+    <div class="scoreboard" id="xoxScoreboard"></div>
+    <div class="card">
+      <div class="turn-indicator" id="xoxTurnIndicator"></div>
+      <div class="xox-board" id="xoxBoard"></div>
+      <div class="result-banner hidden" id="xoxResultBanner"></div>
+      <button class="btn btn-primary finish-btn hidden" id="xoxNextBtn" type="button">Sonraki El</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="xoxEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
+    </div>
+  </section>
+
+  <section id="screen-rps-play" class="hidden">
+    <div class="scoreboard" id="rpsScoreboard"></div>
+    <div class="card">
+      <div class="turn-indicator" id="rpsStatusText">Se&ccedil;imini yap</div>
+      <div class="rps-row" id="rpsChoiceRow"></div>
+      <div class="rps-reveal hidden" id="rpsRevealRow"></div>
+      <div class="result-banner hidden" id="rpsResultBanner"></div>
+      <button class="btn btn-primary finish-btn hidden" id="rpsNextBtn" type="button">Sonraki El</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="rpsEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
     </div>
   </section>
 
   <section id="screen-gameover" class="hidden">
     <div class="card" style="text-align:center;">
-      <div class="round-tag">Oyun Bitti</div>
-      <div id="winnerAnnounce" style="font-family:'Caveat',cursive;font-size:2.3rem;font-weight:700;margin:4px 0 16px;"></div>
+      <div class="round-tag" id="gameoverTitle">Oyun Bitti</div>
+      <div class="winner-announce" id="winnerAnnounce"></div>
       <div class="scoreboard" id="gameoverScoreboard"></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-primary" id="playAgainBtn" type="button">Yeniden Oyna</button>
-      <button class="btn btn-secondary" id="leaveBtnGameover" type="button">Odadan Ayrıl</button>
+      <button class="btn btn-secondary" id="backToHubBtn" type="button">Oyun Men&uuml;s&uuml;ne D&ouml;n</button>
+      <button class="btn btn-secondary" id="leaveBtnGameover" type="button">Odadan Ayr&#305;l</button>
     </div>
   </section>
 </div>
@@ -216,26 +264,40 @@
 (function () {
   "use strict";
 
-  var CATEGORIES = ["İsim", "Şehir", "Hayvan", "Bitki", "Ünlü", "Eşya"];
-  var LETTERS = ["A","B","C","Ç","D","E","F","G","H","I","İ","J","K","L","M","N","O","Ö","P","R","S","Ş","T","U","Ü","V","Y","Z"];
+  var CATEGORIES = ["\u0130sim", "\u015eehir", "Hayvan", "Bitki", "\u00dcnl\u00fc", "E\u015fya"];
+  var LETTERS = ["A","B","C","\u00c7","D","E","F","G","H","I","\u0130","J","K","L","M","N","O","\u00d6","P","R","S","\u015e","T","U","\u00dc","V","Y","Z"];
   var FINISH_WINDOW_MS = 30000;
   var CODE_CHARS = "ABCDEFGHJKLMNPRSTUVYZ23456789";
-  var ROOM_PREFIX = "ihb1-";
+  var ROOM_PREFIX = "mca1-";
+  var XOX_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  var RPS_BEATS = { tas: "makas", kagit: "tas", makas: "kagit" };
+  var RPS_LABELS = { tas: "\u270a Ta\u015f", kagit: "\u270b Ka\u011f\u0131t", makas: "\u270c\ufe0f Makas" };
+  var GAME_DEFS = [
+    { id: "ihb", title: "\u0130sim, \u015eehir, Hayvan, Bitki", desc: "Harf d\u00fc\u015fer, ayn\u0131 anda yazars\u0131n\u0131z.", icon: "\u270f\ufe0f" },
+    { id: "xox", title: "XOX", desc: "Klasik 3x3 tahta oyunu.", icon: "\u274c" },
+    { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "Ayn\u0131 anda se\u00e7, kazanan\u0131 g\u00f6r.", icon: "\u270a" }
+  ];
 
   var peer = null, conn = null, role = null, myPid = null;
   var state = null;
-  var myName = localStorage.getItem("ihb_name") || "";
+  var myName = localStorage.getItem("mca_name") || "";
   var localAnswers = {};
   var myFinished = false;
   var roundKey = null;
   var flushTimeout = null, finalizeTimeout = null, uiTimerInterval = null;
   var reconnectAttempts = 0;
+  var hostRpsSecrets = {};
+  var myRpsPicked = null;
+  var rpsRoundKey = null;
+  var currentGameoverGame = null;
+  var currentRoomCode = null;
 
   function $(id) { return document.getElementById(id); }
   function show(id) { $(id).classList.remove("hidden"); }
   function hide(id) { $(id).classList.add("hidden"); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]; }); }
   function trLower(s) { return String(s || "").trim().toLocaleLowerCase("tr-TR"); }
+  function otherPid(pid) { return pid === "host" ? "guest" : "host"; }
 
   var toastTimer = null;
   function toast(msg) {
@@ -250,17 +312,19 @@
   }
 
   (function initTheme() {
-    var saved = localStorage.getItem("ihb_theme");
+    var saved = localStorage.getItem("mca_theme");
     if (saved === "dark" || saved === "light") document.documentElement.setAttribute("data-theme", saved);
     $("themeToggle").addEventListener("click", function () {
       var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem("ihb_theme", next);
+      localStorage.setItem("mca_theme", next);
     });
   })();
 
+  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "gameover"];
   function goScreen(name) {
-    ["home", "lobby", "round", "reveal", "gameover"].forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
+    SCREENS.forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
+    document.body.classList.toggle("home-mode", name === "home");
   }
 
   function genCode() { var c = ""; for (var i = 0; i < 6; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]; return c; }
@@ -268,30 +332,30 @@
 
   // ---------- home ----------
   $("nameInput").value = myName;
-  $("nameInput").addEventListener("input", function () { myName = this.value; localStorage.setItem("ihb_name", myName); });
+  $("nameInput").addEventListener("input", function () { myName = this.value; localStorage.setItem("mca_name", myName); });
   $("nameInput").addEventListener("keydown", function (e) { if (e.key === "Enter") $("showCreate").click(); });
   $("showJoin").addEventListener("click", function () { $("joinFields").classList.toggle("hidden"); });
   $("codeInput").addEventListener("keydown", function (e) { if (e.key === "Enter") $("doJoin").click(); });
 
   function requireName() {
     myName = $("nameInput").value.trim();
-    if (!myName) { toast("Önce adını yaz."); return false; }
-    localStorage.setItem("ihb_name", myName);
+    if (!myName) { toast("\u00d6nce ad\u0131n\u0131 yaz."); return false; }
+    localStorage.setItem("mca_name", myName);
     return true;
   }
 
   $("showCreate").addEventListener("click", function () {
     if (!requireName()) return;
     hide("joinFields");
-    $("homeStatus").textContent = "Oda kuruluyor…";
+    $("homeStatus").textContent = "Oda kuruluyor\u2026";
     createRoom();
   });
 
   $("doJoin").addEventListener("click", function () {
     if (!requireName()) return;
     var code = $("codeInput").value.trim().toUpperCase();
-    if (!code) { toast("Önce bir oda kodu gir."); return; }
-    $("homeStatus").textContent = "Odaya bağlanılıyor…";
+    if (!code) { toast("\u00d6nce bir oda kodu gir."); return; }
+    $("homeStatus").textContent = "Odaya ba\u011flan\u0131l\u0131yor\u2026";
     joinRoom(code);
   });
 
@@ -301,30 +365,28 @@
     var p = new Peer(ROOM_PREFIX + code, { debug: 1 });
     p.on("open", function () {
       peer = p; role = "host"; myPid = "host";
+      currentRoomCode = code;
       state = {
-        round: 0, phase: "lobby", letter: null, categories: CATEGORIES,
         players: { host: { name: myName } },
-        scores: { host: 0 },
-        answers: {}, invalid: {}, finishedBy: {}, finishStartedAt: null, roundStartedAt: null
+        activeGame: null,
+        games: {}
       };
-      localStorage.setItem("ihb_room", code);
-      localStorage.setItem("ihb_role", "host");
-      renderLobby(code);
-      setStatus("wait", "Oda kuruldu — arkadaşını bekliyoruz");
+      renderHub(code);
+      setStatus("wait", "Oda kuruldu \u2014 arkada\u015f\u0131n\u0131 bekliyoruz");
       $("homeStatus").textContent = "";
     });
     p.on("connection", function (c) {
-      if (conn) { c.close(); return; } // only one guest supported
+      if (conn) { c.close(); return; }
       conn = c;
       wireHostConnection(c);
     });
     p.on("error", function (err) {
       if (err && err.type === "unavailable-id") {
-        createRoom(); // collision on the public broker, try a fresh code
+        createRoom();
       } else if (!state) {
-        $("homeStatus").textContent = "Oda kurulamadı (" + (err && err.type || "bağlantı hatası") + "). Tekrar dener misin?";
+        $("homeStatus").textContent = "Oda kurulamad\u0131 (" + (err && err.type || "ba\u011flant\u0131 hatas\u0131") + "). Tekrar dener misin?";
       } else {
-        setStatus("bad", "Bağlantı sorunu");
+        setStatus("bad", "Ba\u011flant\u0131 sorunu");
       }
     });
   }
@@ -333,18 +395,17 @@
     var p = new Peer(undefined, { debug: 1 });
     p.on("open", function () {
       peer = p; role = "guest"; myPid = "guest";
+      currentRoomCode = code;
       var c = p.connect(ROOM_PREFIX + code, { reliable: true });
       conn = c;
       c.on("open", function () {
-        localStorage.setItem("ihb_room", code);
-        localStorage.setItem("ihb_role", "guest");
         conn.send({ type: "hello", name: myName });
-        setStatus("ok", "Bağlandı");
+        setStatus("ok", "Ba\u011fland\u0131");
       });
       wireGuestConnection(c, code);
     });
-    p.on("error", function (err) {
-      $("homeStatus").textContent = "Odaya bağlanılamadı — kodu kontrol et ya da arkadaşının odayı hâlâ açık tuttuğundan emin ol.";
+    p.on("error", function () {
+      $("homeStatus").textContent = "Odaya ba\u011flan\u0131lamad\u0131 \u2014 kodu kontrol et ya da arkada\u015f\u0131n\u0131n oday\u0131 h\u00e2l\u00e2 a\u00e7\u0131k tuttu\u011fundan emin ol.";
     });
   }
 
@@ -352,31 +413,26 @@
     c.on("data", function (data) { handleHostMessage(data); });
     c.on("close", function () {
       conn = null;
-      setStatus("wait", "Arkadaşının bağlantısı kesildi — bekleniyor");
-      toast("Arkadaşının bağlantısı kesildi.");
+      setStatus("wait", "Arkada\u015f\u0131n\u0131n ba\u011flant\u0131s\u0131 kesildi \u2014 bekleniyor");
+      toast("Arkada\u015f\u0131n\u0131n ba\u011flant\u0131s\u0131 kesildi.");
     });
-    c.on("open", function () {
-      setStatus("ok", "Bağlandı");
-    });
+    c.on("open", function () { setStatus("ok", "Ba\u011fland\u0131"); });
   }
 
   function wireGuestConnection(c, code) {
     c.on("data", function (data) {
       if (data.type === "state") { state = data.state; render(); }
-      else if (data.type === "flush") { if (!myFinished) sendFinish(); }
     });
     c.on("close", function () {
-      setStatus("bad", "Bağlantı kesildi");
-      toast("Ev sahibiyle bağlantı koptu. Tekrar bağlanmayı deniyoruz…");
+      setStatus("bad", "Ba\u011flant\u0131 kesildi");
+      toast("Ev sahibiyle ba\u011flant\u0131 koptu. Tekrar ba\u011flanmay\u0131 deniyoruz\u2026");
       attemptReconnect(code);
     });
-    c.on("open", function () {
-      setStatus("ok", "Bağlandı");
-    });
+    c.on("open", function () { setStatus("ok", "Ba\u011fland\u0131"); });
   }
 
   function attemptReconnect(code) {
-    if (reconnectAttempts >= 5) { setStatus("bad", "Bağlanamadı — odaya tekrar katılmayı dene"); return; }
+    if (reconnectAttempts >= 5) { setStatus("bad", "Ba\u011flanamad\u0131 \u2014 odaya tekrar kat\u0131lmay\u0131 dene"); return; }
     reconnectAttempts++;
     setTimeout(function () {
       var p = new Peer(undefined, { debug: 1 });
@@ -384,7 +440,7 @@
         peer = p;
         var c = p.connect(ROOM_PREFIX + code, { reliable: true });
         conn = c;
-        c.on("open", function () { reconnectAttempts = 0; conn.send({ type: "hello", name: myName }); setStatus("ok", "Yeniden bağlandı"); });
+        c.on("open", function () { reconnectAttempts = 0; conn.send({ type: "hello", name: myName }); setStatus("ok", "Yeniden ba\u011fland\u0131"); });
         wireGuestConnection(c, code);
       });
       p.on("error", function () { attemptReconnect(code); });
@@ -400,79 +456,112 @@
   function handleHostMessage(data) {
     if (data.type === "hello") {
       state.players.guest = { name: data.name };
-      if (!(state.scores && "guest" in state.scores)) state.scores.guest = 0;
       broadcastState();
       return;
     }
     applyAction(data.type, data, "guest");
   }
 
-  function applyAction(type, payload, actorPid) {
-    if (type === "startRound") {
-      if (state.phase !== "lobby") return;
-      state.phase = "round";
-      state.round = (state.round || 0) + 1;
-      state.letter = pickLetter();
-      state.answers = {};
-      state.invalid = {};
-      state.finishedBy = {};
-      state.finishStartedAt = null;
-      state.roundStartedAt = Date.now();
-      broadcastState();
-    } else if (type === "finish") {
-      if (state.phase !== "round") return;
-      state.answers[actorPid] = payload.answers || {};
-      state.finishedBy[actorPid] = true;
-      var everyoneIn = Object.keys(state.players).every(function (pid) { return state.finishedBy[pid]; });
-      if (!state.finishStartedAt) {
-        state.finishStartedAt = Date.now();
-        scheduleFinishWindow();
-      }
-      if (everyoneIn) {
-        clearHostTimers();
-        finalizeToReveal();
-        return;
-      }
-      broadcastState();
-    } else if (type === "toggleInvalid") {
-      state.invalid[payload.pid] = state.invalid[payload.pid] || {};
-      state.invalid[payload.pid][payload.cat] = !state.invalid[payload.pid][payload.cat];
-      broadcastState();
-    } else if (type === "nextRound") {
-      if (state.phase !== "reveal") return;
-      finalizeScoresAndReset();
-      broadcastState();
-    } else if (type === "endGame") {
-      if (state.phase === "reveal") applyRoundScoring();
-      state.phase = "gameover";
-      broadcastState();
-    } else if (type === "playAgain") {
-      var ids2 = Object.keys(state.players || {});
-      var resetScores = {};
-      ids2.forEach(function (id) { resetScores[id] = 0; });
-      state.scores = resetScores;
-      state.phase = "lobby";
-      state.round = 0;
-      state.letter = null;
-      state.answers = {};
-      state.invalid = {};
-      state.finishedBy = {};
-      state.finishStartedAt = null;
-      broadcastState();
-    } else if (type === "requestFlush") {
-      // handled locally on host below
+  function sendAction(type, payload) {
+    var msg = Object.assign({ type: type }, payload || {});
+    if (role === "host") {
+      applyAction(type, msg, "host");
+    } else if (conn && conn.open) {
+      conn.send(msg);
+    } else {
+      toast("Ba\u011flant\u0131 yok, g\u00f6nderilemedi.");
     }
   }
 
-  function scheduleFinishWindow() {
+  function applyAction(type, payload, actorPid) {
+    if (type === "enterGame") { doEnterGame(payload.game); return; }
+    if (type === "restartGame") { doEnterGame(payload.game); return; }
+    if (type === "backToHub") { state.activeGame = null; broadcastState(); return; }
+    if (type === "endGame") { doEndGame(payload.game); return; }
+
+    if (type === "ihbStartRound") { ihbStartRound(); return; }
+    if (type === "ihbFinish") { ihbApplyFinish(payload, actorPid); return; }
+    if (type === "ihbToggleInvalid") { ihbToggleInvalid(payload); return; }
+    if (type === "ihbNextRound") { ihbNextRound(); return; }
+
+    if (type === "xoxMove") { xoxMove(payload, actorPid); return; }
+    if (type === "xoxNext") { xoxNext(); return; }
+
+    if (type === "rpsChoose") { rpsChoose(payload, actorPid); return; }
+    if (type === "rpsNext") { rpsNext(); return; }
+  }
+
+  function doEnterGame(gameId) {
+    var ids = Object.keys(state.players || {});
+    if (ids.length < 2) return;
+    if (gameId === "ihb") {
+      state.games.ihb = { phase: "round", round: 0, letter: null, categories: CATEGORIES, answers: {}, invalid: {}, finishedBy: {}, finishStartedAt: null, roundStartedAt: null, scores: {} };
+      state.activeGame = "ihb";
+      ihbStartRound();
+      return;
+    }
+    if (gameId === "xox") {
+      state.games.xox = { phase: "playing", board: new Array(9).fill(null), starter: "host", turn: "host", scores: {}, draws: 0, roundsPlayed: 0, winner: null };
+      state.activeGame = "xox";
+      broadcastState();
+      return;
+    }
+    if (gameId === "rps") {
+      hostRpsSecrets = {};
+      state.games.rps = { phase: "picking", picked: {}, choices: {}, scores: {}, draws: 0, roundsPlayed: 0, result: null };
+      state.activeGame = "rps";
+      broadcastState();
+      return;
+    }
+  }
+
+  function doEndGame(gameId) {
+    var g = state.games[gameId];
+    if (!g) return;
+    if (gameId === "ihb" && g.phase === "reveal") ihbApplyRoundScoring();
+    g.phase = "gameover";
+    broadcastState();
+  }
+
+  // ================= IHB MODULE =================
+  function ihbStartRound() {
+    var g = state.games.ihb;
+    g.phase = "round";
+    g.round = (g.round || 0) + 1;
+    g.letter = pickLetter();
+    g.answers = {};
+    g.invalid = {};
+    g.finishedBy = {};
+    g.finishStartedAt = null;
+    g.roundStartedAt = Date.now();
+    broadcastState();
+  }
+
+  function ihbApplyFinish(payload, actorPid) {
+    var g = state.games.ihb;
+    if (!g || g.phase !== "round") return;
+    g.answers[actorPid] = payload.answers || {};
+    g.finishedBy[actorPid] = true;
+    var everyoneIn = Object.keys(state.players).every(function (pid) { return g.finishedBy[pid]; });
+    if (!g.finishStartedAt) {
+      g.finishStartedAt = Date.now();
+      scheduleIhbFinishWindow();
+    }
+    if (everyoneIn) {
+      clearHostTimers();
+      ihbFinalizeToReveal();
+      return;
+    }
+    broadcastState();
+  }
+
+  function scheduleIhbFinishWindow() {
     clearHostTimers();
     flushTimeout = setTimeout(function () {
-      if (conn && conn.open) conn.send({ type: "flush" });
-      if (role === "host" && !myFinished) sendFinish();
+      if (conn && conn.open) conn.send({ type: "ihbFlush" });
+      if (role === "host" && !myFinished) ihbSendFinish();
     }, Math.max(0, FINISH_WINDOW_MS - 1000));
-    finalizeTimeout = setTimeout(function () {
-      finalizeToReveal();
-    }, FINISH_WINDOW_MS + 400);
+    finalizeTimeout = setTimeout(function () { ihbFinalizeToReveal(); }, FINISH_WINDOW_MS + 400);
   }
 
   function clearHostTimers() {
@@ -480,21 +569,30 @@
     if (finalizeTimeout) { clearTimeout(finalizeTimeout); finalizeTimeout = null; }
   }
 
-  function finalizeToReveal() {
+  function ihbFinalizeToReveal() {
     clearHostTimers();
-    if (state.phase !== "round") return;
-    state.phase = "reveal";
-    state.roundEndedAt = Date.now();
+    var g = state.games.ihb;
+    if (!g || g.phase !== "round") return;
+    g.phase = "reveal";
     broadcastState();
   }
 
-  function applyRoundScoring() {
+  function ihbToggleInvalid(payload) {
+    var g = state.games.ihb;
+    if (!g) return;
+    g.invalid[payload.pid] = g.invalid[payload.pid] || {};
+    g.invalid[payload.pid][payload.cat] = !g.invalid[payload.pid][payload.cat];
+    broadcastState();
+  }
+
+  function ihbApplyRoundScoring() {
+    var g = state.games.ihb;
     var ids = Object.keys(state.players || {});
-    var cats = state.categories || CATEGORIES;
-    var answers = state.answers || {};
-    var invalid = state.invalid || {};
-    var letter = state.letter;
-    var newScores = Object.assign({}, state.scores || {});
+    var cats = g.categories || CATEGORIES;
+    var answers = g.answers || {};
+    var invalid = g.invalid || {};
+    var letter = g.letter;
+    var newScores = Object.assign({}, g.scores || {});
     ids.forEach(function (id) { if (!(id in newScores)) newScores[id] = 0; });
 
     cats.forEach(function (cat) {
@@ -514,131 +612,85 @@
         if (raw && letterOk && !manualInvalid) newScores[id] += counts[w] > 1 ? 5 : 10;
       });
     });
-
-    state.scores = newScores;
+    g.scores = newScores;
   }
 
-  function finalizeScoresAndReset() {
-    applyRoundScoring();
-    state.phase = "lobby";
-    state.letter = null;
-    state.answers = {};
-    state.invalid = {};
-    state.finishedBy = {};
-    state.finishStartedAt = null;
+  function ihbNextRound() {
+    var g = state.games.ihb;
+    if (!g || g.phase !== "reveal") return;
+    ihbApplyRoundScoring();
+    ihbStartRound();
   }
 
-  // ---------- action sending (works for both host and guest) ----------
-  function sendAction(type, payload) {
-    var msg = Object.assign({ type: type }, payload || {});
-    if (role === "host") {
-      applyAction(type, msg, "host");
-    } else if (conn && conn.open) {
-      conn.send(msg);
-    } else {
-      toast("Bağlantı yok, gönderilemedi.");
-    }
-  }
-
-  function sendFinish() {
+  function ihbSendFinish() {
     if (myFinished) return;
     myFinished = true;
-    sendAction("finish", { answers: Object.assign({}, localAnswers) });
+    sendAction("ihbFinish", { answers: Object.assign({}, localAnswers) });
   }
 
-  // ---------- leaving ----------
-  function leaveRoom() {
-    clearHostTimers();
-    if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
-    if (conn) { try { conn.close(); } catch (e) {} conn = null; }
-    if (peer) { try { peer.destroy(); } catch (e) {} peer = null; }
-    state = null; role = null; myPid = null; myFinished = false; localAnswers = {};
-    localStorage.removeItem("ihb_room"); localStorage.removeItem("ihb_role");
-    hide("statusPill");
-    goScreen("home");
-  }
-  $("leaveBtn").addEventListener("click", leaveRoom);
-  $("leaveBtnReveal").addEventListener("click", leaveRoom);
+  function renderIhbRound() {
+    goScreen("ihb-round");
+    var g = state.games.ihb;
+    var key = g.round + ":" + g.roundStartedAt;
+    if (key !== roundKey) { roundKey = key; localAnswers = {}; myFinished = false; buildIhbAnswerRows(g); }
+    $("ihbRoundTag").textContent = (g.round || 1) + ". tur \u2014 harf:";
+    $("ihbLetterBig").textContent = g.letter || "?";
+    renderScoreboardFor("ihbRoundScoreboard", g.scores);
 
-  // ---------- lobby ----------
-  function renderLobby(code) {
-    goScreen("lobby");
-    $("lobbyCode").textContent = code || (localStorage.getItem("ihb_room") || "");
-    $("lobbyRoundTag").textContent = state.round > 0 ? ("Tur " + state.round + " bitti — yeni tura hazır") : "Lobide";
-    var pl = state.players || {};
-    var ids = Object.keys(pl);
-    $("lobbyPlayers").innerHTML = ids.map(function (id) {
-      return '<span class="player-chip' + (id === "host" ? " host" : "") + '">' + esc(pl[id].name || "Oyuncu") + "</span>";
-    }).join("") || '<span class="empty-state">Henüz kimse yok.</span>';
-    var ready = ids.length >= 2;
-    $("startRoundBtn").disabled = !ready;
-    $("lobbyNote").textContent = ready ? "Herhangi biriniz turu başlatabilir." : "Arkadaşının koda katılmasını bekliyoruz.";
-  }
-
-  $("startRoundBtn").addEventListener("click", function () { sendAction("startRound", {}); });
-
-  // ---------- round ----------
-  function renderRound() {
-    goScreen("round");
-    var key = state.round + ":" + state.roundStartedAt;
-    if (key !== roundKey) {
-      roundKey = key; localAnswers = {}; myFinished = false;
-      buildAnswerRows();
-    }
-    $("roundTag").textContent = (state.round || 1) + ". tur — harf:";
-    $("letterBig").textContent = state.letter || "?";
-    renderScoreboard("roundScoreboard");
-
-    var finishedIds = Object.keys(state.finishedBy || {});
+    var finishedIds = Object.keys(g.finishedBy || {});
     var pl = state.players || {};
     if (finishedIds.length) {
       var names = finishedIds.map(function (id) { return (pl[id] && pl[id].name) || "Oyuncu"; });
-      $("roundNote").textContent = names.join(", ") + " bitirdi — 30 saniye içinde tur kapanıyor.";
+      $("ihbRoundNote").textContent = names.join(", ") + " bitirdi \u2014 30 saniye i\u00e7inde tur kapan\u0131yor.";
     } else {
-      $("roundNote").textContent = "Cevapların rakibinden, tur bitene kadar gizli kalır.";
+      $("ihbRoundNote").textContent = "Cevaplar\u0131n rakibinden, tur bitene kadar gizli kal\u0131r.";
     }
-    $("finishBtn").disabled = myFinished;
-    $("finishBtn").textContent = myFinished ? "Gönderildi ✓" : "Bitirdim";
+    $("ihbFinishBtn").disabled = myFinished;
+    $("ihbFinishBtn").textContent = myFinished ? "G\u00f6nderildi \u2713" : "Bitirdim";
 
-    if (!uiTimerInterval) uiTimerInterval = setInterval(tickTimer, 250);
-    tickTimer();
+    if (!uiTimerInterval) uiTimerInterval = setInterval(ihbTickTimer, 250);
+    ihbTickTimer();
   }
 
-  function buildAnswerRows() {
-    var cats = state.categories || CATEGORIES;
-    $("answerRows").innerHTML = cats.map(function (c, i) {
+  function buildIhbAnswerRows(g) {
+    var cats = g.categories || CATEGORIES;
+    $("ihbAnswerRows").innerHTML = cats.map(function (c, i) {
       return '<div class="answer-row"><div class="cat-name">' + esc(c) + '</div>' +
-        '<input type="text" class="ans-input" data-cat="' + esc(c) + '" autocomplete="off" placeholder="' + esc(state.letter || "") + '… ile başlayan ' + esc(c.toLocaleLowerCase("tr-TR")) + '"' + (i === 0 ? " autofocus" : "") + "></div>";
+        '<input type="text" class="ans-input" data-cat="' + esc(c) + '" autocomplete="off" placeholder="' + esc(g.letter || "") + '\u2026 ile ba\u015flayan ' + esc(c.toLocaleLowerCase("tr-TR")) + '"' + (i === 0 ? " autofocus" : "") + "></div>";
     }).join("");
-    Array.prototype.forEach.call($("answerRows").querySelectorAll(".ans-input"), function (inp) {
+    Array.prototype.forEach.call($("ihbAnswerRows").querySelectorAll(".ans-input"), function (inp) {
       inp.addEventListener("input", function () { localAnswers[this.getAttribute("data-cat")] = this.value; });
     });
   }
 
-  function tickTimer() {
-    if (!state || state.phase !== "round") return;
-    var td = $("timerDisplay");
-    if (!state.finishStartedAt) { td.textContent = ""; td.classList.remove("warn"); return; }
-    var left = Math.max(0, Math.ceil((state.finishStartedAt + FINISH_WINDOW_MS - Date.now()) / 1000));
-    td.textContent = left + " sn kaldı";
+  function ihbTickTimer() {
+    var g = state && state.games && state.games.ihb;
+    if (!g || g.phase !== "round") return;
+    var td = $("ihbTimerDisplay");
+    if (!g.finishStartedAt) { td.textContent = ""; td.classList.remove("warn"); return; }
+    var left = Math.max(0, Math.ceil((g.finishStartedAt + FINISH_WINDOW_MS - Date.now()) / 1000));
+    td.textContent = left + " sn kald\u0131";
     td.classList.toggle("warn", left <= 10);
   }
 
-  $("finishBtn").addEventListener("click", function () { sendFinish(); });
+  $("ihbFinishBtn").addEventListener("click", function () { ihbSendFinish(); });
+  $("ihbEndFromRoundBtn").addEventListener("click", function () { sendAction("endGame", { game: "ihb" }); });
+  $("ihbNextRoundBtn").addEventListener("click", function () { sendAction("ihbNextRound", {}); });
+  $("ihbEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "ihb" }); });
 
-  // ---------- reveal ----------
-  function renderReveal() {
-    goScreen("reveal");
+  function renderIhbReveal() {
+    goScreen("ihb-reveal");
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
-    renderScoreboard("revealScoreboard");
-    $("revealRoundTag").textContent = (state.round || 1) + ". tur sonuçları — harf " + (state.letter || "?");
+    var g = state.games.ihb;
+    renderScoreboardFor("ihbRevealScoreboard", g.scores);
+    $("ihbRevealRoundTag").textContent = (g.round || 1) + ". tur sonu\u00e7lar\u0131 \u2014 harf " + (g.letter || "?");
 
-    var cats = state.categories || CATEGORIES;
+    var cats = g.categories || CATEGORIES;
     var pl = state.players || {};
     var ids = Object.keys(pl);
-    var answers = state.answers || {};
-    var invalid = state.invalid || {};
-    var letter = state.letter;
+    var answers = g.answers || {};
+    var invalid = g.invalid || {};
+    var letter = g.letter;
 
     var thead = "<tr><th>Kategori</th>" + ids.map(function (id) { return "<th>" + esc(pl[id].name || "Oyuncu") + "</th>"; }).join("") + "</tr>";
 
@@ -660,8 +712,8 @@
         var w = trLower(raw);
         var pts = (raw && !isInvalid) ? (counts[w] > 1 ? 5 : 10) : 0;
         var cls = "cell-word" + (isInvalid ? " invalid" : "") + (!raw ? " empty" : "") + (raw && !autoInvalid ? " clickable" : "");
-        var label = raw ? esc(raw) : "(boş)";
-        var flag = autoInvalid ? '<span class="auto-flag" title="Bu harfle başlamıyor">⚑ harf</span>' : "";
+        var label = raw ? esc(raw) : "(bo\u015f)";
+        var flag = autoInvalid ? '<span class="auto-flag" title="Bu harfle ba\u015flam\u0131yor">\u2691 harf</span>' : "";
         var ptsHtml = raw ? '<span class="pts' + (pts === 0 ? " zero" : "") + '">' + (pts === 0 ? "0" : "+" + pts) + "</span>" : "";
         var attrs = raw && !autoInvalid ? (' data-pid="' + id + '" data-cat="' + esc(cat) + '"') : "";
         return "<td><span class=\"" + cls + "\"" + attrs + ">" + label + flag + "</span> " + ptsHtml + "</td>";
@@ -669,53 +721,269 @@
       return "<tr><td class=\"cat-name\">" + esc(cat) + "</td>" + tds + "</tr>";
     }).join("");
 
-    $("revealTable").innerHTML = "<thead>" + thead + "</thead><tbody>" + rowsHtml + "</tbody>";
-    Array.prototype.forEach.call($("revealTable").querySelectorAll(".cell-word.clickable"), function (el) {
+    $("ihbRevealTable").innerHTML = "<thead>" + thead + "</thead><tbody>" + rowsHtml + "</tbody>";
+    Array.prototype.forEach.call($("ihbRevealTable").querySelectorAll(".cell-word.clickable"), function (el) {
       el.addEventListener("click", function () {
-        sendAction("toggleInvalid", { pid: this.getAttribute("data-pid"), cat: this.getAttribute("data-cat") });
+        sendAction("ihbToggleInvalid", { pid: this.getAttribute("data-pid"), cat: this.getAttribute("data-cat") });
       });
     });
   }
 
-  $("nextRoundBtn").addEventListener("click", function () { sendAction("nextRound", {}); });
-  $("endGameBtn").addEventListener("click", function () { sendAction("endGame", {}); });
-  $("playAgainBtn").addEventListener("click", function () { sendAction("playAgain", {}); });
-  $("leaveBtnGameover").addEventListener("click", leaveRoom);
+  // ================= XOX MODULE =================
+  function xoxMove(payload, actorPid) {
+    var g = state.games.xox;
+    if (!g || g.phase !== "playing") return;
+    if (g.turn !== actorPid) return;
+    var idx = payload.index;
+    if (g.board[idx]) return;
+    g.board[idx] = actorPid === "host" ? "X" : "O";
+    var win = xoxCheckWin(g.board, actorPid === "host" ? "X" : "O");
+    if (win) {
+      g.scores[actorPid] = (g.scores[actorPid] || 0) + 1;
+      g.phase = "roundover"; g.winner = actorPid; g.roundsPlayed = (g.roundsPlayed || 0) + 1;
+    } else if (g.board.every(function (c) { return c; })) {
+      g.phase = "roundover"; g.winner = null; g.draws = (g.draws || 0) + 1; g.roundsPlayed = (g.roundsPlayed || 0) + 1;
+    } else {
+      g.turn = otherPid(actorPid);
+    }
+    broadcastState();
+  }
 
-  // ---------- game over ----------
+  function xoxCheckWin(board, sym) {
+    return XOX_LINES.some(function (line) { return line.every(function (i) { return board[i] === sym; }); });
+  }
+
+  function xoxNext() {
+    var g = state.games.xox;
+    if (!g || g.phase !== "roundover") return;
+    g.starter = otherPid(g.starter);
+    g.board = new Array(9).fill(null);
+    g.turn = g.starter;
+    g.phase = "playing";
+    g.winner = null;
+    broadcastState();
+  }
+
+  function renderXox() {
+    goScreen("xox-play");
+    var g = state.games.xox;
+    var pl = state.players || {};
+    renderScoreboardFor("xoxScoreboard", g.scores, g.draws);
+
+    $("xoxBoard").innerHTML = g.board.map(function (cell, i) {
+      var cls = "xox-cell" + (cell === "X" ? " x" : cell === "O" ? " o" : "");
+      var disabled = cell || g.phase !== "playing" || g.turn !== myPid;
+      return '<button class="' + cls + '" data-i="' + i + '"' + (disabled ? " disabled" : "") + ">" + (cell || "") + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("xoxBoard").querySelectorAll("button:not(:disabled)"), function (btn) {
+      btn.addEventListener("click", function () { sendAction("xoxMove", { index: parseInt(this.getAttribute("data-i"), 10) }); });
+    });
+
+    var mySym = myPid === "host" ? "X" : "O";
+    if (g.phase === "playing") {
+      $("xoxTurnIndicator").textContent = g.turn === myPid ? "S\u0131ra sende (" + mySym + ")" : "Rakibinin s\u0131ras\u0131";
+      hide("xoxResultBanner"); hide("xoxNextBtn");
+    } else {
+      $("xoxTurnIndicator").textContent = "";
+      var banner = $("xoxResultBanner");
+      if (g.winner === null) banner.textContent = "\ud83e\udd1d Berabere!";
+      else if (g.winner === myPid) banner.textContent = "\ud83c\udfc6 Kazand\u0131n!";
+      else banner.textContent = "Kaybettin.";
+      show("xoxResultBanner"); show("xoxNextBtn");
+    }
+  }
+
+  $("xoxNextBtn").addEventListener("click", function () { sendAction("xoxNext", {}); });
+  $("xoxEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "xox" }); });
+
+  // ================= RPS MODULE =================
+  function rpsChoose(payload, actorPid) {
+    var g = state.games.rps;
+    if (!g || g.phase !== "picking") return;
+    if (role === "host") {
+      hostRpsSecrets[actorPid] = payload.choice;
+      g.picked[actorPid] = true;
+      var ids = Object.keys(state.players || {});
+      var allPicked = ids.every(function (id) { return hostRpsSecrets[id]; });
+      if (allPicked) {
+        var h = hostRpsSecrets.host, gu = hostRpsSecrets.guest;
+        var result = h === gu ? "draw" : (RPS_BEATS[h] === gu ? "host" : "guest");
+        g.choices = Object.assign({}, hostRpsSecrets);
+        g.result = result;
+        if (result === "draw") g.draws = (g.draws || 0) + 1;
+        else g.scores[result] = (g.scores[result] || 0) + 1;
+        g.roundsPlayed = (g.roundsPlayed || 0) + 1;
+        g.phase = "roundover";
+        hostRpsSecrets = {};
+      }
+    }
+    broadcastState();
+  }
+
+  function rpsNext() {
+    var g = state.games.rps;
+    if (!g || g.phase !== "roundover") return;
+    hostRpsSecrets = {};
+    g.picked = {}; g.choices = {}; g.result = null; g.phase = "picking";
+    broadcastState();
+  }
+
+  function renderRps() {
+    goScreen("rps-play");
+    var g = state.games.rps;
+    var pl = state.players || {};
+    renderScoreboardFor("rpsScoreboard", g.scores, g.draws);
+
+    var key = g.roundsPlayed + ":" + g.phase;
+    if (g.phase === "picking" && rpsRoundKey !== ("picking:" + g.roundsPlayed)) {
+      rpsRoundKey = "picking:" + g.roundsPlayed;
+      myRpsPicked = null;
+    }
+
+    if (g.phase === "picking") {
+      hide("rpsRevealRow"); hide("rpsResultBanner"); hide("rpsNextBtn");
+      show("rpsChoiceRow");
+      var iPicked = !!myRpsPicked;
+      var oppPicked = !!(g.picked && g.picked[otherPid(myPid)]);
+      $("rpsStatusText").textContent = iPicked ? (oppPicked ? "A\u00e7\u0131l\u0131yor\u2026" : "Rakibinin se\u00e7imini bekliyoruz\u2026") : "Se\u00e7imini yap";
+      $("rpsChoiceRow").innerHTML = Object.keys(RPS_LABELS).map(function (k) {
+        var picked = myRpsPicked === k;
+        return '<button class="rps-choice' + (picked ? " picked" : "") + '" data-choice="' + k + '"' + (iPicked ? " disabled" : "") + ">" + RPS_LABELS[k] + "</button>";
+      }).join("");
+      Array.prototype.forEach.call($("rpsChoiceRow").querySelectorAll("button:not(:disabled)"), function (btn) {
+        btn.addEventListener("click", function () {
+          myRpsPicked = this.getAttribute("data-choice");
+          sendAction("rpsChoose", { choice: myRpsPicked });
+          renderRps();
+        });
+      });
+    } else {
+      hide("rpsChoiceRow");
+      var ids = Object.keys(pl);
+      var hostName = (pl.host && pl.host.name) || "Ev sahibi";
+      var guestName = (pl.guest && pl.guest.name) || "Misafir";
+      $("rpsRevealRow").innerHTML =
+        '<div><div class="pick">' + RPS_LABELS[g.choices.host].split(" ")[0] + '</div><div class="rps-name">' + esc(hostName) + "</div></div>" +
+        '<div class="vs">vs</div>' +
+        '<div><div class="pick">' + RPS_LABELS[g.choices.guest].split(" ")[0] + '</div><div class="rps-name">' + esc(guestName) + "</div></div>";
+      show("rpsRevealRow");
+      var banner = $("rpsResultBanner");
+      if (g.result === "draw") banner.textContent = "\ud83e\udd1d Berabere!";
+      else if (g.result === myPid) banner.textContent = "\ud83c\udfc6 Kazand\u0131n!";
+      else banner.textContent = "Kaybettin.";
+      show("rpsResultBanner"); show("rpsNextBtn");
+      $("rpsStatusText").textContent = "";
+    }
+  }
+
+  $("rpsNextBtn").addEventListener("click", function () { sendAction("rpsNext", {}); });
+  $("rpsEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "rps" }); });
+
+  // ================= HUB =================
+  function renderHub(code) {
+    goScreen("hub");
+    var actualCode = code || currentRoomCode || "";
+    $("hubCode").textContent = actualCode;
+    var pl = state.players || {};
+    var ids = Object.keys(pl);
+    $("hubPlayers").innerHTML = ids.map(function (id) {
+      return '<span class="player-chip' + (id === "host" ? " host" : "") + '">' + esc(pl[id].name || "Oyuncu") + "</span>";
+    }).join("") || '<span class="empty-state">Hen\u00fcz kimse yok.</span>';
+
+    var ready = ids.length >= 2;
+    $("gameGrid").innerHTML = GAME_DEFS.map(function (def) {
+      var g = state.games[def.id];
+      var scoreText = "Hen\u00fcz oynanmad\u0131";
+      var hasScore = false;
+      if (g && g.scores && Object.keys(g.scores).length) {
+        var hostN = (pl.host && pl.host.name) || "Ev sahibi";
+        var guestN = (pl.guest && pl.guest.name) || "Misafir";
+        var hs = g.scores.host || 0, gs = g.scores.guest || 0;
+        scoreText = esc(hostN) + " " + hs + (typeof g.draws === "number" ? " \u00b7 " + g.draws + " berabere \u00b7 " : " - ") + gs + " " + esc(guestN);
+        hasScore = true;
+      }
+      return '<div class="game-card">' +
+        '<div class="game-card-head"><span class="game-icon">' + def.icon + '</span><div><div class="game-title">' + esc(def.title) + '</div><p class="game-desc">' + esc(def.desc) + "</p></div></div>" +
+        '<div class="mini-score' + (hasScore ? " has-score" : "") + '">' + scoreText + "</div>" +
+        '<button class="btn btn-primary" data-game="' + def.id + '"' + (ready ? "" : " disabled") + ">Oyna</button>" +
+        "</div>";
+    }).join("");
+    Array.prototype.forEach.call($("gameGrid").querySelectorAll("button[data-game]"), function (btn) {
+      btn.addEventListener("click", function () { sendAction("enterGame", { game: this.getAttribute("data-game") }); });
+    });
+  }
+
+  $("leaveBtnHub").addEventListener("click", leaveRoom);
+
+  // ================= GAME OVER (generic) =================
+  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas" };
   function renderGameOver() {
     goScreen("gameover");
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
-    renderScoreboard("gameoverScoreboard");
-    var pl = state.players || {}, sc = state.scores || {};
+    currentGameoverGame = state.activeGame;
+    var g = state.games[currentGameoverGame];
+    var pl = state.players || {};
+    $("gameoverTitle").textContent = (GAME_TITLES[currentGameoverGame] || "Oyun") + " bitti";
+    renderScoreboardFor("gameoverScoreboard", g.scores, g.draws);
+
     var ids = Object.keys(pl);
+    var sc = g.scores || {};
     var best = -Infinity;
     ids.forEach(function (id) { if ((sc[id] || 0) > best) best = sc[id] || 0; });
     var winners = ids.filter(function (id) { return (sc[id] || 0) === best; });
     var announce;
-    if (winners.length > 1) {
-      announce = "🤝 Berabere! (" + best + " puan)";
-    } else {
-      var wid = winners[0];
-      announce = "🏆 " + esc((pl[wid] && pl[wid].name) || "Oyuncu") + " kazandı!";
-    }
+    if (best <= 0 || winners.length > 1) announce = "\ud83e\udd1d Berabere!" + (best > 0 ? " (" + best + " puan)" : "");
+    else announce = "\ud83c\udfc6 " + esc((pl[winners[0]] && pl[winners[0]].name) || "Oyuncu") + " kazand\u0131!";
     $("winnerAnnounce").textContent = announce;
   }
 
-  // ---------- scoreboard + master render ----------
-  function renderScoreboard(targetId) {
-    var pl = state.players || {}, sc = state.scores || {};
-    $(targetId).innerHTML = Object.keys(pl).map(function (id) {
+  $("playAgainBtn").addEventListener("click", function () { sendAction("restartGame", { game: currentGameoverGame }); });
+  $("backToHubBtn").addEventListener("click", function () { sendAction("backToHub", {}); });
+  $("leaveBtnGameover").addEventListener("click", leaveRoom);
+
+  // ================= SHARED SCOREBOARD =================
+  function renderScoreboardFor(targetId, scores, draws) {
+    var pl = state.players || {};
+    var sc = scores || {};
+    var html = Object.keys(pl).map(function (id) {
       return '<div class="score-pill"><div class="nm">' + esc((pl[id] && pl[id].name) || "Oyuncu") + '</div><div class="val">' + (sc[id] || 0) + "</div></div>";
     }).join("");
+    if (typeof draws === "number" && draws > 0) {
+      html += '<div class="score-pill"><div class="nm">Berabere</div><div class="val">' + draws + "</div></div>";
+    }
+    $(targetId).innerHTML = html;
   }
 
+  // ================= MASTER RENDER =================
   function render() {
     if (!state) return;
-    if (state.phase === "round") renderRound();
-    else if (state.phase === "reveal") renderReveal();
-    else if (state.phase === "gameover") renderGameOver();
-    else renderLobby();
+    if (!state.activeGame) { renderHub(); return; }
+    var g = state.games[state.activeGame];
+    if (!g) { renderHub(); return; }
+    if (state.activeGame === "ihb") {
+      if (g.phase === "round") renderIhbRound();
+      else if (g.phase === "reveal") renderIhbReveal();
+      else renderGameOver();
+    } else if (state.activeGame === "xox") {
+      if (g.phase === "gameover") renderGameOver();
+      else renderXox();
+    } else if (state.activeGame === "rps") {
+      if (g.phase === "gameover") renderGameOver();
+      else renderRps();
+    }
+  }
+
+  // ---------- leaving ----------
+  function leaveRoom() {
+    clearHostTimers();
+    if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
+    if (conn) { try { conn.close(); } catch (e) {} conn = null; }
+    if (peer) { try { peer.destroy(); } catch (e) {} peer = null; }
+    state = null; role = null; myPid = null; myFinished = false; localAnswers = {};
+    hostRpsSecrets = {}; myRpsPicked = null; currentGameoverGame = null; currentRoomCode = null;
+    localStorage.removeItem("mca_room");
+    hide("statusPill");
+    goScreen("home");
   }
 
   // ---------- deep link prefill ----------
@@ -723,6 +991,8 @@
     var h = (window.location.hash || "").replace("#", "").trim().toUpperCase();
     if (h) { $("codeInput").value = h; show("joinFields"); }
   })();
+
+  goScreen("home");
 })();
 </script>
 </body>
