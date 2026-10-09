@@ -139,6 +139,33 @@
   .rps-name { font-size: 0.78rem; color: var(--ink-soft); text-align: center; font-weight: 600; }
 
   .winner-announce { font-family: "Caveat", cursive; font-size: 2.3rem; font-weight: 700; margin: 4px 0 16px; text-align: center; }
+
+  .omb-stage-label { text-align: center; font-size: 0.85rem; color: var(--ink-soft); font-weight: 600; margin-bottom: 14px; }
+  .omb-pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: start; }
+  .omb-vs { font-family: "Caveat", cursive; font-size: 1.6rem; color: var(--ink-soft); padding-top: 34px; }
+  .omb-slot { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
+  .omb-card { width: 100%; background: var(--paper); border: 2px solid var(--rule-strong); border-radius: 12px; padding: 8px; cursor: pointer; font-family: inherit; color: var(--ink); text-align: center; }
+  .omb-card:disabled { cursor: default; }
+  .omb-card:not(:disabled):hover { border-color: var(--focus); }
+  .omb-card.winner { border-color: var(--accent-green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-green) 25%, transparent); }
+  .omb-card.loser { opacity: 0.45; }
+  .omb-img { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: color-mix(in srgb, var(--focus) 12%, var(--paper-raised)); display: flex; align-items: center; justify-content: center; }
+  .omb-img .initial { font-family: "Caveat", cursive; font-size: 3.4rem; font-weight: 700; color: var(--focus); opacity: 0.7; }
+  .omb-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .omb-name { font-weight: 700; font-size: 0.95rem; margin-top: 8px; line-height: 1.2; overflow-wrap: anywhere; }
+  .bubble-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 30px; }
+  .pick-bubble { --b: var(--focus); position: relative; background: var(--b); color: var(--paper); font-size: 0.78rem; font-weight: 600; padding: 4px 11px; border-radius: 14px; margin-top: 5px; }
+  .pick-bubble.guest { --b: var(--margin); }
+  .pick-bubble::before { content: ""; position: absolute; top: -5px; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top: 0; border-bottom: 5px solid var(--b); }
+  .omb-note { text-align: center; font-size: 0.92rem; font-weight: 600; margin: 12px 0 4px; min-height: 1.4em; }
+  .dice-area { display: flex; justify-content: center; gap: 28px; margin: 14px 0 6px; }
+  .die-wrap { text-align: center; }
+  .die { width: 84px; height: 84px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 1.9rem; color: var(--paper); background: var(--ink); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
+  .die.empty { background: var(--rule-strong); color: var(--ink-soft); }
+  .die.won { background: var(--accent-green); }
+  .die.anim { animation: dieroll 0.7s ease-out; }
+  @keyframes dieroll { 0% { transform: rotate(-200deg) scale(0.5); opacity: 0; } 60% { transform: rotate(15deg) scale(1.1); opacity: 1; } 100% { transform: rotate(0) scale(1); } }
+  .die-name { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -245,6 +272,34 @@
     </div>
   </section>
 
+  <section id="screen-omb-cats" class="hidden">
+    <div class="card">
+      <div class="round-tag">O mu bu mu?</div>
+      <div class="winner-announce" style="font-size:1.9rem;margin-bottom:0;">Kategori seç</div>
+    </div>
+    <div class="game-grid" id="ombCatGrid"></div>
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-secondary" id="ombCatBackBtn" type="button">Oyun Menüsüne Dön</button>
+    </div>
+  </section>
+
+  <section id="screen-omb-play" class="hidden">
+    <div class="scoreboard" id="ombScoreboard"></div>
+    <div class="card">
+      <div class="omb-stage-label" id="ombStageLabel"></div>
+      <div class="omb-pair" id="ombPair"></div>
+      <div class="omb-note" id="ombNote"></div>
+      <div class="dice-area hidden" id="ombDiceArea"></div>
+      <div class="btn-row" style="justify-content:center;margin-top:8px;">
+        <button class="btn btn-primary hidden" id="ombRollBtn" type="button">🎲 Zarı At</button>
+        <button class="btn btn-primary hidden" id="ombNextBtn" type="button">Devam</button>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="ombEndGameBtn" type="button">Oyunu Sonlandır</button>
+    </div>
+  </section>
+
   <section id="screen-gameover" class="hidden">
     <div class="card" style="text-align:center;">
       <div class="round-tag" id="gameoverTitle">Oyun Bitti</div>
@@ -275,8 +330,19 @@
   var GAME_DEFS = [
     { id: "ihb", title: "\u0130sim, \u015eehir, Hayvan, Bitki", desc: "Harf d\u00fc\u015fer, ayn\u0131 anda yazars\u0131n\u0131z.", icon: "\u270f\ufe0f" },
     { id: "xox", title: "XOX", desc: "Klasik 3x3 tahta oyunu.", icon: "\u274c" },
-    { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "Ayn\u0131 anda se\u00e7, kazanan\u0131 g\u00f6r.", icon: "\u270a" }
+    { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "Ayn\u0131 anda se\u00e7, kazanan\u0131 g\u00f6r.", icon: "\u270a" },
+    { id: "omb", title: "O mu bu mu?", desc: "32 itemlik turnuva, eşleşme eşleşme elenir.", icon: "🆚" }
   ];
+
+  // Tatlı görsellerini buraya ekle: "Baklava": "https://...jpg"
+  var DESSERT_IMAGES = {};
+  var DESSERT_NAMES = ["Acı badem kurabiyesi", "Aşure", "Baklava", "Cevizli sucuk", "Dondurma", "Ekmek kadayıfı", "Güllaç", "İrmik helvası", "Kabak tatlısı", "Katmer", "Kazandibi", "Kemalpaşa", "Keşkül", "Künefe", "Lokma", "Lokum", "Muhallebi", "Pişmaniye", "Lor Tatlısı", "Revani", "Sütlaç", "Supangle", "Şambali", "Şekerpare", "Şöbiyet", "Tahinli pide", "Tavukgöğsü", "Tel Kadayıf", "Tulumba tatlısı", "Laz Böreği", "Kestane Şekeri", "Profiterol", "İzmir bombası", "Krem Karamel", "Tiramisu", "San Sebastian", "Waffle", "Muzlu Kek", "Havuçlu Kek", "Magnolia", "Dolgulu Cookie", "Ekler", "Makaron", "Pankek", "Brownie", "Sufle", "Trileçe", "Pasta", "Soğuk Baklava", "Kıbrıs Tatlısı"];
+  var OMB_CATEGORIES = [
+    { id: "tatlilar", title: "Tatlılar", icon: "🍰", items: DESSERT_NAMES.map(function (n) { return { name: n, img: DESSERT_IMAGES[n] || "" }; }) }
+  ];
+  var OMB_STAGE_LABELS = { 32: "Son 32", 16: "Son 16", 8: "Çeyrek final", 4: "Yarı final", 2: "Final" };
+  var ombTimeout = null;
+  var ombAnimSeen = {};
 
   var peer = null, conn = null, role = null, myPid = null;
   var state = null;
@@ -321,7 +387,7 @@
     });
   })();
 
-  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "gameover"];
+  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "gameover"];
   function goScreen(name) {
     SCREENS.forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
     document.body.classList.toggle("home-mode", name === "home");
@@ -475,7 +541,11 @@
 
   function applyAction(type, payload, actorPid) {
     if (type === "enterGame") { doEnterGame(payload.game); return; }
-    if (type === "restartGame") { doEnterGame(payload.game); return; }
+    if (type === "restartGame") {
+      if (payload.game === "omb" && state.games.omb && state.games.omb.category) ombStart(state.games.omb.category);
+      else doEnterGame(payload.game);
+      return;
+    }
     if (type === "backToHub") { state.activeGame = null; broadcastState(); return; }
     if (type === "endGame") { doEndGame(payload.game); return; }
 
@@ -489,6 +559,11 @@
 
     if (type === "rpsChoose") { rpsChoose(payload, actorPid); return; }
     if (type === "rpsNext") { rpsNext(); return; }
+
+    if (type === "ombStart") { var og = state.games.omb; if (og && og.phase === "category") ombStart(payload.category); return; }
+    if (type === "ombPick") { ombPick(payload, actorPid); return; }
+    if (type === "ombRoll") { ombRoll(actorPid); return; }
+    if (type === "ombNext") { ombAdvance(); return; }
   }
 
   function doEnterGame(gameId) {
@@ -513,11 +588,26 @@
       broadcastState();
       return;
     }
+    if (gameId === "omb") {
+      clearOmbTimeout();
+      state.games.omb = { phase: "category" };
+      state.activeGame = "omb";
+      broadcastState();
+      return;
+    }
   }
 
   function doEndGame(gameId) {
     var g = state.games[gameId];
     if (!g) return;
+    if (gameId === "omb") {
+      clearOmbTimeout();
+      g.endedEarly = true;
+      g.hubText = ombHubText(g);
+      g.phase = "gameover";
+      broadcastState();
+      return;
+    }
     if (gameId === "ihb" && g.phase === "reveal") ihbApplyRoundScoring();
     g.phase = "gameover";
     broadcastState();
@@ -879,6 +969,203 @@
   $("rpsNextBtn").addEventListener("click", function () { sendAction("rpsNext", {}); });
   $("rpsEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "rps" }); });
 
+  // ================= OMB MODULE (O mu bu mu?) =================
+  function shuffleArr(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function clearOmbTimeout() { if (ombTimeout) { clearTimeout(ombTimeout); ombTimeout = null; } }
+  function ombPair(g) { return [g.roundItems[2 * g.matchIdx], g.roundItems[2 * g.matchIdx + 1]]; }
+  function ombPercent(g) { return g.matchesPlayed ? Math.round(100 * g.agreed / g.matchesPlayed) : 0; }
+  function ombHubText(g) {
+    var pct = ombPercent(g);
+    if (g.champion) return "Şampiyon: " + g.champion.name + " · %" + pct + " uyum";
+    return "Yarıda kaldı" + (g.matchesPlayed ? " · %" + pct + " uyum (" + g.matchesPlayed + " eşleşme)" : "");
+  }
+
+  function ombStart(categoryId) {
+    if (Object.keys(state.players || {}).length < 2) return;
+    var cat = OMB_CATEGORIES.filter(function (c) { return c.id === categoryId; })[0];
+    if (!cat) return;
+    var size = 32;
+    while (size > cat.items.length) size = size / 2;
+    clearOmbTimeout();
+    state.games.omb = {
+      phase: "picking", category: cat.id, categoryTitle: cat.title,
+      roundItems: shuffleArr(cat.items).slice(0, size), matchIdx: 0, winners: [],
+      picks: { host: null, guest: null }, dice: { host: null, guest: null },
+      lastTie: null, tieCount: 0, lastResult: null, matchesPlayed: 0, agreed: 0,
+      scores: { host: 0, guest: 0 }, champion: null, finalist: null, hubText: null, endedEarly: false
+    };
+    state.activeGame = "omb";
+    broadcastState();
+  }
+
+  function ombPick(payload, actorPid) {
+    var g = state.games.omb;
+    if (!g || g.phase !== "picking") return;
+    if (g.picks[actorPid] !== null) return;
+    var c = payload.choice;
+    if (c !== 0 && c !== 1) return;
+    g.picks[actorPid] = c;
+    if (g.picks.host !== null && g.picks.guest !== null) {
+      if (g.picks.host === g.picks.guest) { ombResolve(c, "agree", null); return; }
+      g.phase = "dice";
+      g.dice = { host: null, guest: null };
+    }
+    broadcastState();
+  }
+
+  function ombRoll(actorPid) {
+    var g = state.games.omb;
+    if (!g || g.phase !== "dice") return;
+    if (g.dice[actorPid] !== null) return;
+    g.dice[actorPid] = 1 + Math.floor(Math.random() * 20);
+    if (g.dice.host !== null && g.dice.guest !== null) {
+      if (g.dice.host === g.dice.guest) {
+        g.tieCount = (g.tieCount || 0) + 1;
+        g.lastTie = g.dice.host;
+        g.dice = { host: null, guest: null };
+        broadcastState();
+        return;
+      }
+      var winner = g.dice.host > g.dice.guest ? "host" : "guest";
+      ombResolve(g.picks[winner], "dice", winner);
+      return;
+    }
+    broadcastState();
+  }
+
+  function ombResolve(winnerIdx, how, diceWinner) {
+    var g = state.games.omb;
+    var pair = ombPair(g);
+    g.winners.push(pair[winnerIdx]);
+    g.matchesPlayed++;
+    if (how === "agree") g.agreed++; else g.scores[diceWinner] = (g.scores[diceWinner] || 0) + 1;
+    if (g.roundItems.length === 2) g.finalist = pair[1 - winnerIdx];
+    g.lastResult = { winnerIdx: winnerIdx, how: how, diceWinner: diceWinner };
+    g.lastTie = null;
+    g.phase = "roundover";
+    broadcastState();
+    clearOmbTimeout();
+    ombTimeout = setTimeout(ombAdvance, 3500);
+  }
+
+  function ombAdvance() {
+    clearOmbTimeout();
+    var g = state.games.omb;
+    if (!g || g.phase !== "roundover") return;
+    g.matchIdx++;
+    if (g.matchIdx * 2 >= g.roundItems.length) {
+      g.roundItems = g.winners;
+      g.winners = [];
+      g.matchIdx = 0;
+      if (g.roundItems.length === 1) {
+        g.champion = g.roundItems[0];
+        g.hubText = ombHubText(g);
+        g.phase = "gameover";
+        broadcastState();
+        return;
+      }
+    }
+    g.picks = { host: null, guest: null };
+    g.dice = { host: null, guest: null };
+    g.lastResult = null;
+    g.lastTie = null;
+    g.phase = "picking";
+    broadcastState();
+  }
+
+  function ombScoreboardHtml(g) {
+    var pl = state.players || {};
+    var html = ["host", "guest"].filter(function (pid) { return pl[pid]; }).map(function (pid) {
+      return '<div class="score-pill"><div class="nm">' + esc(pl[pid].name || "Oyuncu") + ' · zar</div><div class="val">' + ((g.scores && g.scores[pid]) || 0) + "</div></div>";
+    }).join("");
+    html += '<div class="score-pill"><div class="nm">Uyum</div><div class="val">%' + ombPercent(g) + "</div></div>";
+    return html;
+  }
+
+  function renderOmbCats() {
+    goScreen("omb-cats");
+    $("ombCatGrid").innerHTML = OMB_CATEGORIES.map(function (c) {
+      return '<div class="game-card"><div class="game-card-head"><span class="game-icon">' + c.icon + '</span><div><div class="game-title">' + esc(c.title) + '</div><p class="game-desc">' + c.items.length + " item, her oyunda rastgele 32 tanesi</p></div></div>" +
+        '<button class="btn btn-primary" data-cat="' + esc(c.id) + '">Başla</button></div>';
+    }).join("");
+    Array.prototype.forEach.call($("ombCatGrid").querySelectorAll("button[data-cat]"), function (btn) {
+      btn.addEventListener("click", function () { sendAction("ombStart", { category: this.getAttribute("data-cat") }); });
+    });
+  }
+
+  function renderOmb() {
+    goScreen("omb-play");
+    var g = state.games.omb;
+    var pl = state.players || {};
+    $("ombScoreboard").innerHTML = ombScoreboardHtml(g);
+    var total = g.roundItems.length;
+    var isFinal = total === 2;
+    $("ombStageLabel").textContent = (OMB_STAGE_LABELS[total] || ("Son " + total)) + " · Eşleşme " + (g.matchIdx + 1) + "/" + (total / 2);
+
+    var pair = ombPair(g);
+    var res = g.phase === "roundover" ? g.lastResult : null;
+    var slots = [0, 1].map(function (i) {
+      var it = pair[i];
+      var bubbles = ["host", "guest"].filter(function (pid) { return g.picks[pid] === i && pl[pid]; }).map(function (pid) {
+        return '<span class="pick-bubble ' + pid + '">' + esc(pl[pid].name || "Oyuncu") + "</span>";
+      }).join("");
+      var cls = "omb-card" + (res ? (res.winnerIdx === i ? " winner" : " loser") : "");
+      var disabled = g.phase !== "picking" || g.picks[myPid] !== null;
+      var img = it.img ? '<img src="' + esc(it.img) + '" alt="">' : "";
+      return '<div class="omb-slot"><button class="' + cls + '" data-i="' + i + '"' + (disabled ? " disabled" : "") + '><div class="omb-img"><span class="initial">' + esc(it.name.charAt(0)) + "</span>" + img + '</div><div class="omb-name">' + esc(it.name) + '</div></button><div class="bubble-row">' + bubbles + "</div></div>";
+    });
+    $("ombPair").innerHTML = slots[0] + '<div class="omb-vs">vs</div>' + slots[1];
+    Array.prototype.forEach.call($("ombPair").querySelectorAll("button:not(:disabled)"), function (btn) {
+      btn.addEventListener("click", function () { sendAction("ombPick", { choice: parseInt(this.getAttribute("data-i"), 10) }); });
+    });
+    Array.prototype.forEach.call($("ombPair").querySelectorAll("img"), function (im) {
+      im.addEventListener("error", function () { this.style.display = "none"; });
+    });
+
+    var note = "";
+    var oppPid = otherPid(myPid);
+    if (g.phase === "picking") {
+      var iPicked = g.picks[myPid] !== null, oppPicked = g.picks[oppPid] !== null;
+      note = iPicked ? "Rakibinin seçmesini bekliyoruz…" : (oppPicked ? ((pl[oppPid] && pl[oppPid].name) || "Rakibin") + " seçti, sıra sende" : "Birini seç");
+    } else if (g.phase === "dice") {
+      note = g.lastTie ? "Zarlar eşit geldi (" + g.lastTie + " - " + g.lastTie + "), tekrar atın!" : "Seçimleriniz farklı! Zar atın, büyük olan kazanır.";
+    } else if (res) {
+      var wName = pair[res.winnerIdx].name;
+      var tail = isFinal ? " şampiyon!" : " yükseldi";
+      note = res.how === "agree" ? ("Aynı seçim! " + wName + tail) : (((pl[res.diceWinner] && pl[res.diceWinner].name) || "Oyuncu") + " zarı kazandı → " + wName + tail);
+    }
+    $("ombNote").textContent = note;
+
+    var diceVisible = g.phase === "dice" || (res && res.how === "dice");
+    if (diceVisible) {
+      var winnerDie = res && res.how === "dice" ? res.diceWinner : null;
+      var mIdx = g.phase === "roundover" ? g.matchesPlayed - 1 : g.matchesPlayed;
+      $("ombDiceArea").innerHTML = ["host", "guest"].map(function (pid) {
+        var v = g.dice[pid];
+        var key = pid + ":" + v + ":" + mIdx + ":" + g.tieCount;
+        var anim = v !== null && !ombAnimSeen[key];
+        if (v !== null) ombAnimSeen[key] = true;
+        return '<div class="die-wrap"><div class="die' + (v === null ? " empty" : "") + (anim ? " anim" : "") + (winnerDie === pid ? " won" : "") + '">' + (v === null ? "?" : v) + '</div><div class="die-name">' + esc((pl[pid] && pl[pid].name) || "Oyuncu") + "</div></div>";
+      }).join("");
+      show("ombDiceArea");
+    } else {
+      hide("ombDiceArea");
+    }
+
+    $("ombRollBtn").classList.toggle("hidden", !(g.phase === "dice" && g.dice[myPid] === null));
+    $("ombNextBtn").classList.toggle("hidden", g.phase !== "roundover");
+    $("ombNextBtn").textContent = isFinal ? "Sonucu Gör" : "Devam";
+  }
+
+  $("ombCatBackBtn").addEventListener("click", function () { sendAction("backToHub", {}); });
+  $("ombRollBtn").addEventListener("click", function () { sendAction("ombRoll", {}); });
+  $("ombNextBtn").addEventListener("click", function () { sendAction("ombNext", {}); });
+  $("ombEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "omb" }); });
+
   // ================= HUB =================
   function renderHub(code) {
     goScreen("hub");
@@ -895,7 +1182,9 @@
       var g = state.games[def.id];
       var scoreText = "Hen\u00fcz oynanmad\u0131";
       var hasScore = false;
-      if (g && g.scores && Object.keys(g.scores).length) {
+      if (def.id === "omb") {
+        if (g && g.hubText) { scoreText = esc(g.hubText); hasScore = true; }
+      } else if (g && g.scores && Object.keys(g.scores).length) {
         var hostN = (pl.host && pl.host.name) || "Ev sahibi";
         var guestN = (pl.guest && pl.guest.name) || "Misafir";
         var hs = g.scores.host || 0, gs = g.scores.guest || 0;
@@ -916,7 +1205,7 @@
   $("leaveBtnHub").addEventListener("click", leaveRoom);
 
   // ================= GAME OVER (generic) =================
-  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas" };
+  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas", omb: "O mu bu mu?" };
   function renderGameOver() {
     goScreen("gameover");
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
@@ -924,6 +1213,13 @@
     var g = state.games[currentGameoverGame];
     var pl = state.players || {};
     $("gameoverTitle").textContent = (GAME_TITLES[currentGameoverGame] || "Oyun") + " bitti";
+    if (currentGameoverGame === "omb") {
+      $("gameoverScoreboard").innerHTML = ombScoreboardHtml(g);
+      $("winnerAnnounce").innerHTML = g.champion
+        ? ("🏆 " + esc(g.champion.name) + (g.finalist ? '<div style="font-size:1.05rem;font-family:Libre Franklin,sans-serif;font-weight:500;color:var(--ink-soft);margin-top:4px;">Finalist: ' + esc(g.finalist.name) + "</div>" : ""))
+        : "Turnuva yarıda kaldı";
+      return;
+    }
     renderScoreboardFor("gameoverScoreboard", g.scores, g.draws);
 
     var ids = Object.keys(pl);
@@ -970,6 +1266,10 @@
     } else if (state.activeGame === "rps") {
       if (g.phase === "gameover") renderGameOver();
       else renderRps();
+    } else if (state.activeGame === "omb") {
+      if (g.phase === "category") renderOmbCats();
+      else if (g.phase === "gameover") renderGameOver();
+      else renderOmb();
     }
   }
 
@@ -979,6 +1279,7 @@
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
     if (conn) { try { conn.close(); } catch (e) {} conn = null; }
     if (peer) { try { peer.destroy(); } catch (e) {} peer = null; }
+    clearOmbTimeout();
     state = null; role = null; myPid = null; myFinished = false; localAnswers = {};
     hostRpsSecrets = {}; myRpsPicked = null; currentGameoverGame = null; currentRoomCode = null;
     localStorage.removeItem("mca_room");
