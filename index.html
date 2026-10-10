@@ -337,8 +337,12 @@
   // Tatlı görsellerini buraya ekle: "Baklava": "https://...jpg"
   var DESSERT_IMAGES = {};
   var DESSERT_NAMES = ["Acı badem kurabiyesi", "Aşure", "Baklava", "Cevizli sucuk", "Dondurma", "Ekmek kadayıfı", "Güllaç", "İrmik helvası", "Kabak tatlısı", "Katmer", "Kazandibi", "Kemalpaşa", "Keşkül", "Künefe", "Lokma", "Lokum", "Muhallebi", "Pişmaniye", "Lor Tatlısı", "Revani", "Sütlaç", "Supangle", "Şambali", "Şekerpare", "Şöbiyet", "Tahinli pide", "Tavukgöğsü", "Tel Kadayıf", "Tulumba tatlısı", "Laz Böreği", "Kestane Şekeri", "Profiterol", "İzmir bombası", "Krem Karamel", "Tiramisu", "San Sebastian", "Waffle", "Muzlu Kek", "Havuçlu Kek", "Magnolia", "Dolgulu Cookie", "Ekler", "Makaron", "Pankek", "Brownie", "Sufle", "Trileçe", "Pasta", "Soğuk Baklava", "Kıbrıs Tatlısı"];
+  // Yemek görsellerini buraya ekle: "Lahmacun": "https://...jpg"
+  var FOOD_IMAGES = {};
+  var FOOD_NAMES = ["Adana/Urfa Kebap", "İskender", "Lahmacun", "Mantı", "Köfte", "Sarma", "Pizza", "Lazanya", "Sushi", "Tavuk Döner", "Tantuni", "Ramen", "Pide", "Taze Fasulye", "Kuru Fasulye", "Ispanak Yemeği", "Arapsaçı Yemeği", "Tavuk Şiş", "Hünkar Beğendi", "Şakşuka", "Çiğ Köfte", "Çibörek", "Alinazik", "Enginar Yemeği", "Ciğer", "Keşkek", "Yağlama", "Söğüş", "Kokoreç", "Kavurma", "Tost", "Hamburger", "Karnıyarık", "Sulu Köfte", "İçli Köfte", "Tavuk Sote", "Şinitzel", "Tavuk Kanat", "Tavuklu Pilav", "Tavuklu Kremalı Makarna", "Fırında Tavuk", "Biber Dolması", "Barbunya", "Börülce", "Mücver", "Güveç", "Kısır", "Mercimek Çorbası", "Ezogelin Çorbası", "Tarhana Çorbası", "Tavuk Suyu Çorbası", "Sigara Böreği", "Paçanga Böreği", "Kıymalı Börek", "Peynirli Börek", "Gözleme", "Bazlama", "Kumpir"];
   var OMB_CATEGORIES = [
-    { id: "tatlilar", title: "Tatlılar", icon: "🍰", items: DESSERT_NAMES.map(function (n) { return { name: n, img: DESSERT_IMAGES[n] || "" }; }) }
+    { id: "tatlilar", title: "Tatlılar", icon: "🍰", items: DESSERT_NAMES.map(function (n) { return { name: n, img: DESSERT_IMAGES[n] || "" }; }) },
+    { id: "yemekler", title: "Yemekler", icon: "🍽️", items: FOOD_NAMES.map(function (n) { return { name: n, img: FOOD_IMAGES[n] || "" }; }) }
   ];
   var OMB_STAGE_LABELS = { 32: "Son 32", 16: "Son 16", 8: "Çeyrek final", 4: "Yarı final", 2: "Final" };
   var ombTimeout = null;
@@ -542,7 +546,7 @@
   function applyAction(type, payload, actorPid) {
     if (type === "enterGame") { doEnterGame(payload.game); return; }
     if (type === "restartGame") {
-      if (payload.game === "omb" && state.games.omb && state.games.omb.category) ombStart(state.games.omb.category);
+      if (payload.game === "omb" && state.games.omb && state.games.omb.category) ombStart(state.games.omb.category, state.games.omb.size);
       else doEnterGame(payload.game);
       return;
     }
@@ -560,7 +564,7 @@
     if (type === "rpsChoose") { rpsChoose(payload, actorPid); return; }
     if (type === "rpsNext") { rpsNext(); return; }
 
-    if (type === "ombStart") { var og = state.games.omb; if (og && og.phase === "category") ombStart(payload.category); return; }
+    if (type === "ombStart") { var og = state.games.omb; if (og && og.phase === "category") ombStart(payload.category, payload.size); return; }
     if (type === "ombPick") { ombPick(payload, actorPid); return; }
     if (type === "ombRoll") { ombRoll(actorPid); return; }
     if (type === "ombNext") { ombAdvance(); return; }
@@ -984,15 +988,15 @@
     return "Yarıda kaldı" + (g.matchesPlayed ? " · %" + pct + " uyum (" + g.matchesPlayed + " eşleşme)" : "");
   }
 
-  function ombStart(categoryId) {
+  function ombStart(categoryId, wantedSize) {
     if (Object.keys(state.players || {}).length < 2) return;
     var cat = OMB_CATEGORIES.filter(function (c) { return c.id === categoryId; })[0];
     if (!cat) return;
-    var size = 32;
+    var size = wantedSize === 16 ? 16 : 32;
     while (size > cat.items.length) size = size / 2;
     clearOmbTimeout();
     state.games.omb = {
-      phase: "picking", category: cat.id, categoryTitle: cat.title,
+      phase: "picking", category: cat.id, categoryTitle: cat.title, size: size,
       roundItems: shuffleArr(cat.items).slice(0, size), matchIdx: 0, winners: [],
       picks: { host: null, guest: null }, dice: { host: null, guest: null },
       lastTie: null, tieCount: 0, lastResult: null, matchesPlayed: 0, agreed: 0,
@@ -1089,11 +1093,12 @@
   function renderOmbCats() {
     goScreen("omb-cats");
     $("ombCatGrid").innerHTML = OMB_CATEGORIES.map(function (c) {
-      return '<div class="game-card"><div class="game-card-head"><span class="game-icon">' + c.icon + '</span><div><div class="game-title">' + esc(c.title) + '</div><p class="game-desc">' + c.items.length + " item, her oyunda rastgele 32 tanesi</p></div></div>" +
-        '<button class="btn btn-primary" data-cat="' + esc(c.id) + '">Başla</button></div>';
+      return '<div class="game-card"><div class="game-card-head"><span class="game-icon">' + c.icon + '</span><div><div class="game-title">' + esc(c.title) + '</div><p class="game-desc">' + c.items.length + " item, her oyunda rastgele seçilir</p></div></div>" +
+        '<div class="btn-row"><button class="btn btn-primary" data-cat="' + esc(c.id) + '" data-size="16">16\u0027l\u0131k</button>' +
+        '<button class="btn btn-primary" data-cat="' + esc(c.id) + '" data-size="32">32\u0027lik</button></div></div>';
     }).join("");
     Array.prototype.forEach.call($("ombCatGrid").querySelectorAll("button[data-cat]"), function (btn) {
-      btn.addEventListener("click", function () { sendAction("ombStart", { category: this.getAttribute("data-cat") }); });
+      btn.addEventListener("click", function () { sendAction("ombStart", { category: this.getAttribute("data-cat"), size: parseInt(this.getAttribute("data-size"), 10) }); });
     });
   }
 
