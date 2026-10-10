@@ -1093,7 +1093,7 @@
   function renderOmbCats() {
     goScreen("omb-cats");
     $("ombCatGrid").innerHTML = OMB_CATEGORIES.map(function (c) {
-      return '<div class="game-card"><div class="game-card-head"><span class="game-icon">' + c.icon + '</span><div><div class="game-title">' + esc(c.title) + '</div><p class="game-desc">' + c.items.length + " item, her oyunda rastgele seçilir</p></div></div>" +
+      return '<div class="game-card"><div class="game-card-head"><span class="game-icon">' + c.icon + '</span><div><div class="game-title">' + esc(c.title) + '</div></div></div>' +
         '<div class="btn-row"><button class="btn btn-primary" data-cat="' + esc(c.id) + '" data-size="16">16\u0027l\u0131k</button>' +
         '<button class="btn btn-primary" data-cat="' + esc(c.id) + '" data-size="32">32\u0027lik</button></div></div>';
     }).join("");
