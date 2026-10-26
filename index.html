@@ -204,6 +204,49 @@
   .bk-note.c1 { background: #AEDDB8; }
   .bk-note.c2 { background: #A9CBF0; }
   .bk-note.c3 { background: #CDB6EC; }
+
+  :root { --uk-r: #C93C3C; --uk-b: #2F6FCB; --uk-g: #2E8B57; --uk-p: #7B4BB8; }
+  .uk-card { --cc: #2b2b33; font-size: 14px; width: 4.1em; height: 6.1em; flex: 0 0 auto; border-radius: 0.7em; background: var(--cc); border: 0.2em solid #fff; box-shadow: 0 2px 5px var(--shadow); position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: "Libre Franklin", sans-serif; font-weight: 800; user-select: none; box-sizing: border-box; transition: transform 0.12s ease; }
+  .uk-card.c-r { --cc: var(--uk-r); } .uk-card.c-b { --cc: var(--uk-b); } .uk-card.c-g { --cc: var(--uk-g); } .uk-card.c-p { --cc: var(--uk-p); }
+  .uk-card .oval { width: 76%; height: 64%; border-radius: 50%; background: #fff; transform: rotate(-22deg); display: flex; align-items: center; justify-content: center; }
+  .uk-card .sym { transform: rotate(22deg); color: var(--cc); font-size: 2em; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
+  .uk-card .corner { position: absolute; top: 0.15em; left: 0.3em; font-size: 0.8em; line-height: 1.1; }
+  .uk-card.wild { background: #1d1d25; }
+  .uk-card.wild .oval { background: conic-gradient(var(--uk-r) 0 25%, var(--uk-b) 0 50%, var(--uk-g) 0 75%, var(--uk-p) 0 100%); }
+  .uk-card.wild .sym { color: #fff; font-size: 1.15em; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75); }
+  .uk-card.wild .sym.num { font-size: 2em; }
+  .uk-card.back { background: #23232c; }
+  .uk-card.back .oval { background: var(--margin); }
+  .uk-card.back .sym { color: #fff; font-size: 0.85em; }
+  .uk-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .uk-card.big { font-size: 19px; }
+  .uk-card.mini { font-size: 6.5px; border-width: 0.3em; }
+  .uk-card.playable { cursor: pointer; transform: translateY(-6px); box-shadow: 0 5px 10px var(--shadow); }
+  .uk-card.playable:hover { transform: translateY(-10px); }
+  .uk-card.dim { opacity: 0.4; }
+  .uk-card.drawn { outline: 3px solid var(--accent-mustard); outline-offset: 1px; }
+  .uk-opp { text-align: center; padding: 6px 4px 12px; border-radius: 10px; }
+  .uk-opp.turn { background: color-mix(in srgb, var(--focus) 10%, transparent); }
+  .uk-opp .nm { font-weight: 700; font-size: 0.92rem; margin-bottom: 8px; }
+  .uk-fan { display: flex; justify-content: center; min-height: 2.6em; padding-left: 0.9em; }
+  .uk-fan .uk-card { margin-left: -0.9em; }
+  .uk-table { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 6px 0 4px; }
+  .uk-deckbtn { background: none; border: none; padding: 0; font-family: inherit; color: var(--ink); cursor: pointer; text-align: center; }
+  .uk-deckbtn:disabled { cursor: default; opacity: 0.55; }
+  .uk-deckbtn .lbl { display: block; margin-top: 6px; font-size: 0.72rem; font-weight: 600; color: var(--ink-soft); }
+  .uk-info { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; min-width: 92px; }
+  .uk-colorchip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; }
+  .uk-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  .uk-dot.c-r { background: var(--uk-r); } .uk-dot.c-b { background: var(--uk-b); } .uk-dot.c-g { background: var(--uk-g); } .uk-dot.c-p { background: var(--uk-p); }
+  .uk-pending { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.95rem; color: #fff; background: var(--margin); border-radius: 8px; padding: 4px 10px; }
+  .uk-status { text-align: center; font-weight: 600; font-size: 0.92rem; margin: 10px 0 2px; }
+  .uk-log { text-align: center; font-size: 0.78rem; color: var(--ink-soft); min-height: 1.2em; margin-bottom: 8px; }
+  .uk-hand { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding-top: 12px; }
+  .uk-colorpick { text-align: center; margin: 10px 0; }
+  .uk-colorpick-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
+  .uk-colorbtns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .uk-colorbtn { font-family: inherit; font-weight: 700; font-size: 0.82rem; color: #fff; border: none; border-radius: 8px; padding: 9px 14px; cursor: pointer; background: var(--cc); }
+  .uk-colorbtn.c-r { --cc: var(--uk-r); } .uk-colorbtn.c-b { --cc: var(--uk-b); } .uk-colorbtn.c-g { --cc: var(--uk-g); } .uk-colorbtn.c-p { --cc: var(--uk-p); }
 </style>
 </head>
 <body>
@@ -403,6 +446,44 @@
     </div>
   </section>
 
+  <section id="screen-uk-play" class="hidden">
+    <div class="scoreboard" id="ukScoreboard"></div>
+    <div class="card">
+      <div class="uk-opp" id="ukOpp"></div>
+      <div class="uk-table">
+        <button class="uk-deckbtn" id="ukDeckBtn" type="button"></button>
+        <div id="ukDiscard"></div>
+        <div class="uk-info">
+          <div class="uk-colorchip" id="ukColorChip"></div>
+          <div class="uk-pending hidden" id="ukPending"></div>
+        </div>
+      </div>
+      <div class="uk-status" id="ukStatus"></div>
+      <div class="uk-log" id="ukLog"></div>
+      <div class="uk-colorpick hidden" id="ukColorPick">
+        <div class="uk-colorpick-title">Rengi seç</div>
+        <div class="uk-colorbtns">
+          <button class="uk-colorbtn c-r" data-c="r" type="button">Kırmızı</button>
+          <button class="uk-colorbtn c-b" data-c="b" type="button">Mavi</button>
+          <button class="uk-colorbtn c-g" data-c="g" type="button">Yeşil</button>
+          <button class="uk-colorbtn c-p" data-c="p" type="button">Mor</button>
+        </div>
+        <button class="btn btn-secondary" id="ukPickCancel" type="button">Vazgeç</button>
+      </div>
+      <div class="round-tag" id="ukHandLabel" style="text-align:center;margin-top:6px;"></div>
+      <div class="uk-hand" id="ukHand"></div>
+      <div id="ukResultBox" class="hidden">
+        <div class="result-banner" id="ukResultBanner"></div>
+        <div class="bk-reason" id="ukReason"></div>
+        <button class="btn btn-primary finish-btn" id="ukNextBtn" type="button">Sonraki El</button>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary hidden" id="ukPassBtn" type="button">Pas Geç</button>
+      <button class="btn btn-secondary" id="ukEndGameBtn" type="button">Oyunu Sonlandır</button>
+    </div>
+  </section>
+
   <section id="screen-gameover" class="hidden">
     <div class="card" style="text-align:center;">
       <div class="round-tag" id="gameoverTitle">Oyun Bitti</div>
@@ -435,8 +516,16 @@
     { id: "xox", title: "XOX", desc: "Klasik 3x3 tahta oyunu.", icon: "\u274c" },
     { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "Ayn\u0131 anda se\u00e7, kazanan\u0131 g\u00f6r.", icon: "\u270a" },
     { id: "omb", title: "O mu bu mu?", desc: "32 itemlik turnuva, eşleşme eşleşme elenir.", icon: "🆚" },
-    { id: "bk", title: "Ben kimim?", desc: "", icon: "🕵️" }
+    { id: "bk", title: "Ben kimim?", desc: "", icon: "🕵️" },
+    { id: "uk", title: "Kart Oyunu", desc: "", icon: "🃏" }
   ];
+
+  // Kart görselleri: dosyaları repoya yükle (örn. img/cards/r-5.png) ve klasörü yaz.
+  // Dosya adları: r-1 ... r-9, r-skip, r-plus2 (r=kırmızı, b=mavi, g=yeşil, p=mor), wild, plus4, back
+  // Tek tek eşlemek istersen CARD_IMAGES = { "r-5": "https://...png" } şeklinde de verebilirsin.
+  var CARD_IMAGE_DIR = "";
+  var CARD_IMAGE_EXT = "png";
+  var CARD_IMAGES = {};
 
   // Tatlı görsellerini buraya ekle: "Baklava": "https://...jpg"
   var DESSERT_IMAGES = {};
@@ -455,6 +544,11 @@
   var bkSetupKey = null;
   var bkMode = "ask";
   var bkRevealSentKey = null;
+  var ukHands = { host: [], guest: [] };
+  var ukDeck = [];
+  var ukDiscard = [];
+  var ukGuestHand = [];
+  var ukPickId = null;
 
   var peer = null, conn = null, role = null, myPid = null;
   var state = null;
@@ -499,7 +593,7 @@
     });
   })();
 
-  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "bk-setup", "bk-play", "gameover"];
+  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "bk-setup", "bk-play", "uk-play", "gameover"];
   function goScreen(name) {
     SCREENS.forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
     document.body.classList.toggle("home-mode", name === "home");
@@ -599,7 +693,8 @@
 
   function wireGuestConnection(c, code) {
     c.on("data", function (data) {
-      if (data.type === "state") { state = data.state; render(); }
+      if (data.type === "hand") { ukGuestHand = data.hand || []; }
+      else if (data.type === "state") { state = data.state; render(); }
     });
     c.on("close", function () {
       setStatus("bad", "Ba\u011flant\u0131 kesildi");
@@ -626,7 +721,10 @@
   }
 
   function broadcastState() {
-    if (conn && conn.open) conn.send({ type: "state", state: state });
+    if (conn && conn.open) {
+      if (state && state.activeGame === "uk" && role === "host") conn.send({ type: "hand", hand: ukHands.guest || [] });
+      conn.send({ type: "state", state: state });
+    }
     render();
   }
 
@@ -684,6 +782,11 @@
     if (type === "bkJudge") { bkJudge(payload, actorPid); return; }
     if (type === "bkNext") { bkNext(); return; }
     if (type === "bkReveal") { bkRevealAct(payload, actorPid); return; }
+
+    if (type === "ukPlay") { ukPlay(payload, actorPid); return; }
+    if (type === "ukDraw") { ukDraw(actorPid); return; }
+    if (type === "ukPass") { ukPass(actorPid); return; }
+    if (type === "ukNext") { ukNext(); return; }
   }
 
   function doEnterGame(gameId) {
@@ -712,6 +815,14 @@
       clearOmbTimeout();
       state.games.omb = { phase: "category" };
       state.activeGame = "omb";
+      broadcastState();
+      return;
+    }
+    if (gameId === "uk") {
+      var ug = { sid: Date.now(), scores: { host: 0, guest: 0 }, roundsPlayed: 0, round: 0, starter: Math.random() < 0.5 ? "host" : "guest" };
+      ukDeal(ug);
+      state.games.uk = ug;
+      state.activeGame = "uk";
       broadcastState();
       return;
     }
@@ -1570,6 +1681,322 @@
   $("bkEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "bk" }); });
   $("bkEndFromSetupBtn").addEventListener("click", function () { sendAction("endGame", { game: "bk" }); });
 
+  // ================= UK MODULE (Kart oyunu) =================
+  var UK_COLORS = ["r", "b", "g", "p"];
+  var UK_COLOR_NAMES = { r: "Kırmızı", b: "Mavi", g: "Yeşil", p: "Mor" };
+  var UK_NUMBER_COPIES = 2;
+  var UK_ELIM_AT = 25;
+
+  function ukBuildDeck() {
+    var deck = [], id = 0;
+    UK_COLORS.forEach(function (c) {
+      for (var v = 1; v <= 9; v++) for (var k = 0; k < UK_NUMBER_COPIES; k++) deck.push({ id: id++, c: c, t: "n", v: v });
+      for (var s = 0; s < 2; s++) deck.push({ id: id++, c: c, t: "skip", v: 0 });
+      for (var p = 0; p < 2; p++) deck.push({ id: id++, c: c, t: "plus2", v: 0 });
+    });
+    for (var w = 0; w < 4; w++) deck.push({ id: id++, c: null, t: "wild", v: 0 });
+    for (var f = 0; f < 4; f++) deck.push({ id: id++, c: null, t: "plus4", v: 0 });
+    return deck;
+  }
+
+  function ukCardLabel(card) {
+    if (card.t === "wild") return "Renk Değiştir";
+    if (card.t === "plus4") return "+4";
+    var cn = UK_COLOR_NAMES[card.c];
+    if (card.t === "n") return cn + " " + card.v;
+    if (card.t === "skip") return cn + " Pas";
+    return cn + " +2";
+  }
+
+  function ukSync(g) {
+    g.counts = { host: ukHands.host.length, guest: ukHands.guest.length };
+    g.deckCount = ukDeck.length;
+    g.top = ukDiscard[ukDiscard.length - 1];
+  }
+
+  function ukDeal(g) {
+    g.round = (g.round || 0) + 1;
+    var deck = shuffleArr(ukBuildDeck());
+    ukHands = { host: [], guest: [] };
+    for (var i = 0; i < 7; i++) { ukHands.host.push(deck.pop()); ukHands.guest.push(deck.pop()); }
+    var idx = -1;
+    for (var j = deck.length - 1; j >= 0; j--) { if (deck[j].t === "n") { idx = j; break; } }
+    var start = deck.splice(idx, 1)[0];
+    ukDeck = deck;
+    ukDiscard = [start];
+    g.phase = "playing";
+    g.turn = g.starter;
+    g.color = start.c;
+    g.pending = null;
+    g.drawnId = null;
+    g.result = null;
+    g.log = "El başladı.";
+    ukSync(g);
+  }
+
+  function ukDrawCards(pid, n) {
+    var drawn = [];
+    for (var i = 0; i < n; i++) {
+      if (!ukDeck.length) {
+        if (ukDiscard.length > 1) {
+          var top = ukDiscard.pop();
+          ukDeck = shuffleArr(ukDiscard);
+          ukDiscard = [top];
+        } else break;
+      }
+      var c = ukDeck.pop();
+      ukHands[pid].push(c);
+      drawn.push(c);
+    }
+    return drawn;
+  }
+
+  function ukPlayable(card, g) {
+    if (g.drawnId !== null && card.id !== g.drawnId) return false;
+    if (g.pending) {
+      if (g.pending.kind === "plus4") return card.t === "plus4";
+      return card.t === "plus2" || card.t === "plus4";
+    }
+    if (card.t === "wild" || card.t === "plus4") return true;
+    if (card.c === g.color) return true;
+    var top = g.top;
+    if (card.t === "n") return top.t === "n" && top.v === card.v;
+    return top.t === card.t;
+  }
+
+  function ukWin(g, winner, reason) {
+    g.phase = "roundover";
+    g.result = { winner: winner, reason: reason };
+    g.scores[winner] = (g.scores[winner] || 0) + 1;
+    g.roundsPlayed = (g.roundsPlayed || 0) + 1;
+    g.pending = null;
+    g.drawnId = null;
+    ukSync(g);
+    broadcastState();
+  }
+
+  function ukCheckElim(g) {
+    var pids = ["host", "guest"];
+    for (var i = 0; i < pids.length; i++) {
+      if (ukHands[pids[i]].length >= UK_ELIM_AT) { ukWin(g, otherPid(pids[i]), "elim"); return true; }
+    }
+    return false;
+  }
+
+  function ukPlay(payload, actor) {
+    var g = state.games.uk;
+    if (!g || g.phase !== "playing" || g.turn !== actor) return;
+    var hand = ukHands[actor];
+    var idx = -1;
+    for (var i = 0; i < hand.length; i++) { if (hand[i].id === payload.id) { idx = i; break; } }
+    if (idx < 0) return;
+    var card = hand[idx];
+    if (!ukPlayable(card, g)) return;
+    var isWild = card.t === "wild" || card.t === "plus4";
+    if (isWild && UK_COLORS.indexOf(payload.color) < 0) return;
+    hand.splice(idx, 1);
+    ukDiscard.push(card);
+    g.drawnId = null;
+    g.color = isWild ? payload.color : card.c;
+    var opp = otherPid(actor);
+    var log = bkName(actor) + " " + ukCardLabel(card) + " oynadı";
+    if (isWild) log += " (renk: " + UK_COLOR_NAMES[g.color] + ")";
+    if (card.t === "skip") {
+      g.turn = actor;
+      log += " — " + bkName(opp) + " pas geçti";
+    } else if (card.t === "plus2" || card.t === "plus4") {
+      var add = card.t === "plus2" ? 2 : 4;
+      g.pending = { n: (g.pending ? g.pending.n : 0) + add, kind: card.t };
+      g.turn = opp;
+    } else {
+      g.turn = opp;
+    }
+    g.log = log;
+    ukSync(g);
+    if (hand.length === 0) { ukWin(g, actor, "empty"); return; }
+    broadcastState();
+  }
+
+  function ukDraw(actor) {
+    var g = state.games.uk;
+    if (!g || g.phase !== "playing" || g.turn !== actor) return;
+    var opp = otherPid(actor);
+    if (g.pending) {
+      var n = g.pending.n;
+      var got = ukDrawCards(actor, n);
+      g.log = bkName(actor) + " " + got.length + " kart çekti (ceza)";
+      g.pending = null;
+      g.drawnId = null;
+      g.turn = opp;
+      ukSync(g);
+      if (ukCheckElim(g)) return;
+      broadcastState();
+      return;
+    }
+    if (g.drawnId !== null) return;
+    var hasPlayable = ukHands[actor].some(function (c) { return ukPlayable(c, g); });
+    if (hasPlayable) return;
+    var drawn = ukDrawCards(actor, 1);
+    if (!drawn.length) {
+      g.turn = opp;
+      g.log = "Deste bitti, sıra geçti.";
+      ukSync(g);
+      broadcastState();
+      return;
+    }
+    var card = drawn[0];
+    ukSync(g);
+    if (ukCheckElim(g)) return;
+    if (ukPlayable(card, g)) {
+      g.drawnId = card.id;
+      g.log = bkName(actor) + " kart çekti";
+    } else {
+      g.turn = opp;
+      g.log = bkName(actor) + " kart çekti, oynanamadı";
+    }
+    broadcastState();
+  }
+
+  function ukPass(actor) {
+    var g = state.games.uk;
+    if (!g || g.phase !== "playing" || g.turn !== actor || g.drawnId === null) return;
+    g.drawnId = null;
+    g.turn = otherPid(actor);
+    g.log = bkName(actor) + " pas geçti";
+    broadcastState();
+  }
+
+  function ukNext() {
+    var g = state.games.uk;
+    if (!g || g.phase !== "roundover") return;
+    g.starter = otherPid(g.starter);
+    ukDeal(g);
+    broadcastState();
+  }
+
+  // ---- UK client ----
+  function ukKey(card) {
+    if (card.t === "wild") return "wild";
+    if (card.t === "plus4") return "plus4";
+    return card.c + "-" + (card.t === "n" ? card.v : card.t);
+  }
+  function ukImgUrl(key) {
+    if (CARD_IMAGES[key]) return CARD_IMAGES[key];
+    return CARD_IMAGE_DIR ? CARD_IMAGE_DIR + key + "." + CARD_IMAGE_EXT : "";
+  }
+  function ukBanSvg() {
+    return '<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="12" cy="12" r="8"></circle><line x1="6.3" y1="17.7" x2="17.7" y2="6.3"></line></svg>';
+  }
+  function ukCardHtml(card, cls, attrs) {
+    var sym, corner, symCls = "sym";
+    if (card.t === "n") { sym = String(card.v); corner = String(card.v); }
+    else if (card.t === "skip") { sym = ukBanSvg(); corner = "P"; }
+    else if (card.t === "plus2") { sym = "+2"; corner = "+2"; }
+    else if (card.t === "plus4") { sym = "+4"; corner = "+4"; symCls += " num"; }
+    else { sym = "RENK"; corner = "R"; }
+    var url = ukImgUrl(ukKey(card));
+    var img = url ? '<img src="' + esc(url) + '" alt="">' : "";
+    return '<div class="uk-card ' + (card.c ? "c-" + card.c : "wild") + (cls ? " " + cls : "") + '"' + (attrs || "") + '><span class="corner">' + corner + '</span><span class="oval"><span class="' + symCls + '">' + sym + "</span></span>" + img + "</div>";
+  }
+  function ukBackHtml(cls) {
+    var url = ukImgUrl("back");
+    return '<div class="uk-card back ' + (cls || "") + '"><span class="oval"><span class="sym">M&amp;C</span></span>' + (url ? '<img src="' + esc(url) + '" alt="">' : "") + "</div>";
+  }
+  function ukHideBroken(root) {
+    Array.prototype.forEach.call(root.querySelectorAll(".uk-card img"), function (im) {
+      im.addEventListener("error", function () { this.style.display = "none"; });
+    });
+  }
+  function ukSortRank(card) {
+    var cr = card.c ? UK_COLORS.indexOf(card.c) : 4;
+    var tr = card.t === "n" ? card.v : (card.t === "skip" ? 10 : (card.t === "plus2" ? 11 : (card.t === "wild" ? 12 : 13)));
+    return cr * 100 + tr;
+  }
+
+  function renderUk() {
+    goScreen("uk-play");
+    var g = state.games.uk;
+    var me = myPid, opp = otherPid(myPid);
+    var hand = (role === "host" ? ukHands.host : ukGuestHand) || [];
+    renderScoreboardFor("ukScoreboard", g.scores);
+
+    var playing = g.phase === "playing";
+    var myTurn = playing && g.turn === me;
+    if (!myTurn) ukPickId = null;
+
+    var oppCount = (g.counts && g.counts[opp]) || 0;
+    var fan = "";
+    for (var i = 0; i < Math.min(oppCount, 12); i++) fan += ukBackHtml("mini");
+    $("ukOpp").className = "uk-opp" + (playing && g.turn === opp ? " turn" : "");
+    $("ukOpp").innerHTML = '<div class="nm">' + esc(bkName(opp)) + " · " + oppCount + " kart</div>" + '<div class="uk-fan">' + fan + "</div>";
+
+    var hasPlayable = myTurn && hand.some(function (c) { return ukPlayable(c, g); });
+    var canDraw = myTurn && (!!g.pending || (g.drawnId === null && !hasPlayable));
+    var deckLabel = g.pending && myTurn ? "Cezayı çek (+" + g.pending.n + ")" : "Kart çek";
+    $("ukDeckBtn").innerHTML = ukBackHtml("big") + '<span class="lbl">' + deckLabel + " · " + (g.deckCount || 0) + "</span>";
+    $("ukDeckBtn").disabled = !canDraw;
+    $("ukDiscard").innerHTML = ukCardHtml(g.top, "big", "");
+    $("ukColorChip").innerHTML = '<span class="uk-dot c-' + g.color + '"></span>' + UK_COLOR_NAMES[g.color];
+    var pend = $("ukPending");
+    if (g.pending) { pend.textContent = "+" + g.pending.n + " ceza"; pend.classList.remove("hidden"); } else pend.classList.add("hidden");
+
+    var status = "";
+    if (playing) {
+      if (myTurn) {
+        if (g.pending) status = hasPlayable ? "Ceza bekliyor (+" + g.pending.n + ") — üstüne +2/+4 atabilir ya da cezayı çekebilirsin" : "Ceza bekliyor (+" + g.pending.n + ") — desteden çekmen gerekiyor";
+        else if (g.drawnId !== null) status = "Çektiğin kart oynanabilir — oyna ya da pas geç";
+        else if (hasPlayable) status = "Sıra sende — bir kart oyna";
+        else status = "Oynanabilir kartın yok — desteden kart çek";
+      } else status = bkName(g.turn) + " oynuyor…";
+    }
+    $("ukStatus").textContent = status;
+    $("ukLog").textContent = g.log || "";
+
+    var sorted = hand.slice().sort(function (a, b) { return ukSortRank(a) - ukSortRank(b); });
+    $("ukHandLabel").textContent = "Elin (" + hand.length + ")";
+    $("ukHand").innerHTML = sorted.map(function (c) {
+      var ok = myTurn && ukPlayable(c, g);
+      var cls = (ok ? "playable" : (myTurn ? "dim" : "")) + (g.drawnId === c.id ? " drawn" : "");
+      return ukCardHtml(c, cls.trim(), ' data-id="' + c.id + '"');
+    }).join("");
+    ukHideBroken($("ukOpp")); ukHideBroken($("ukDeckBtn")); ukHideBroken($("ukDiscard")); ukHideBroken($("ukHand"));
+
+    $("ukColorPick").classList.toggle("hidden", ukPickId === null);
+    $("ukPassBtn").classList.toggle("hidden", !(myTurn && g.drawnId !== null));
+
+    var resultBox = g.phase === "roundover";
+    $("ukResultBox").classList.toggle("hidden", !resultBox);
+    if (resultBox) {
+      var r = g.result;
+      $("ukResultBanner").textContent = r.winner === me ? "🏆 Kazandın!" : "Kaybettin.";
+      $("ukReason").textContent = r.reason === "elim" ? bkName(otherPid(r.winner)) + " " + UK_ELIM_AT + " karta ulaştı, elendi." : bkName(r.winner) + " elindeki kartları bitirdi.";
+    }
+  }
+
+  $("ukHand").addEventListener("click", function (e) {
+    var el = e.target && e.target.closest ? e.target.closest(".uk-card.playable") : null;
+    if (!el || !state || !state.games.uk) return;
+    var id = parseInt(el.getAttribute("data-id"), 10);
+    var hand = (role === "host" ? ukHands.host : ukGuestHand) || [];
+    var card = hand.filter(function (c) { return c.id === id; })[0];
+    if (!card) return;
+    if (card.t === "wild" || card.t === "plus4") { ukPickId = id; renderUk(); return; }
+    sendAction("ukPlay", { id: id });
+  });
+  $("ukColorPick").addEventListener("click", function (e) {
+    var c = e.target && e.target.getAttribute && e.target.getAttribute("data-c");
+    if (!c || ukPickId === null) return;
+    var id = ukPickId;
+    ukPickId = null;
+    sendAction("ukPlay", { id: id, color: c });
+    if (state && state.games.uk) renderUk();
+  });
+  $("ukPickCancel").addEventListener("click", function () { ukPickId = null; if (state && state.games.uk) renderUk(); });
+  $("ukDeckBtn").addEventListener("click", function () { sendAction("ukDraw", {}); });
+  $("ukPassBtn").addEventListener("click", function () { sendAction("ukPass", {}); });
+  $("ukNextBtn").addEventListener("click", function () { sendAction("ukNext", {}); });
+  $("ukEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "uk" }); });
+
   // ================= HUB =================
   function renderHub(code) {
     goScreen("hub");
@@ -1609,7 +2036,7 @@
   $("leaveBtnHub").addEventListener("click", leaveRoom);
 
   // ================= GAME OVER (generic) =================
-  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas", omb: "O mu bu mu?", bk: "Ben kimim?" };
+  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas", omb: "O mu bu mu?", bk: "Ben kimim?", uk: "Kart Oyunu" };
   function renderGameOver() {
     goScreen("gameover");
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
@@ -1674,6 +2101,9 @@
       if (g.phase === "category") renderOmbCats();
       else if (g.phase === "gameover") renderGameOver();
       else renderOmb();
+    } else if (state.activeGame === "uk") {
+      if (g.phase === "gameover") renderGameOver();
+      else renderUk();
     } else if (state.activeGame === "bk") {
       if (g.phase === "setup") renderBkSetup();
       else if (g.phase === "gameover") renderGameOver();
@@ -1689,6 +2119,7 @@
     if (peer) { try { peer.destroy(); } catch (e) {} peer = null; }
     clearOmbTimeout();
     bkMyChar = ""; bkSetupKey = null; bkMode = "ask"; bkRevealSentKey = null;
+    ukHands = { host: [], guest: [] }; ukDeck = []; ukDiscard = []; ukGuestHand = []; ukPickId = null;
     state = null; role = null; myPid = null; myFinished = false; localAnswers = {};
     hostRpsSecrets = {}; myRpsPicked = null; currentGameoverGame = null; currentRoomCode = null;
     localStorage.removeItem("mca_room");
