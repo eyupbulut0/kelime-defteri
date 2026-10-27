@@ -222,7 +222,8 @@
   .uk-card.big { font-size: 19px; }
   .uk-card.mini { font-size: 6.5px; border-width: 0.3em; }
   .uk-card.playable { cursor: pointer; transform: translateY(-6px); box-shadow: 0 5px 10px var(--shadow); }
-  .uk-card.playable:hover { transform: translateY(-10px); }
+  .uk-hand-inner .uk-card:hover { transform: translateY(-10px) scale(1.06); z-index: 6; }
+  .uk-hand-inner .uk-card.playable:hover { transform: translateY(-18px) scale(1.12) rotate(-2deg); z-index: 6; box-shadow: 0 10px 18px var(--shadow); }
   .uk-card.dim { opacity: 0.4; }
   .uk-card.drawn { outline: 3px solid var(--accent-mustard); outline-offset: 1px; }
   .uk-opp { text-align: center; padding: 6px 4px 12px; border-radius: 10px; }
@@ -241,12 +242,46 @@
   .uk-pending { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.95rem; color: #fff; background: var(--margin); border-radius: 8px; padding: 4px 10px; }
   .uk-status { text-align: center; font-weight: 600; font-size: 0.92rem; margin: 10px 0 2px; }
   .uk-log { text-align: center; font-size: 0.78rem; color: var(--ink-soft); min-height: 1.2em; margin-bottom: 8px; }
-  .uk-hand { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding-top: 12px; }
+  .uk-hand { overflow-x: auto; overflow-y: hidden; padding: 26px 10px 8px; }
+  .uk-hand-inner { display: flex; width: max-content; margin: 0 auto; }
+  .uk-hand-inner .uk-card { font-size: 17px; margin-left: 6px; }
+  .uk-hand-inner.d2 .uk-card { margin-left: -1.1em; }
+  .uk-hand-inner.d3 .uk-card { margin-left: -1.8em; }
+  .uk-hand-inner .uk-card:first-child { margin-left: 0; }
   .uk-colorpick { text-align: center; margin: 10px 0; }
   .uk-colorpick-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
   .uk-colorbtns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
   .uk-colorbtn { font-family: inherit; font-weight: 700; font-size: 0.82rem; color: #fff; border: none; border-radius: 8px; padding: 9px 14px; cursor: pointer; background: var(--cc); }
   .uk-colorbtn.c-r { --cc: var(--uk-r); } .uk-colorbtn.c-b { --cc: var(--uk-b); } .uk-colorbtn.c-g { --cc: var(--uk-g); } .uk-colorbtn.c-p { --cc: var(--uk-p); }
+  .uk-card.wild .sym.num10 { font-size: 1.5em; }
+  #screen-uk-play { padding-bottom: 240px; }
+  .uk-tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: color-mix(in srgb, var(--paper-raised) 94%, transparent); backdrop-filter: blur(6px); border-top: 1px solid var(--rule); box-shadow: 0 -4px 14px var(--shadow); padding: 6px 8px calc(10px + env(safe-area-inset-bottom, 0px)); }
+  .uk-tray-head { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 0 10px; min-height: 36px; }
+  body.uk-mode .wrap { max-width: 1240px; }
+  @media (min-width: 1000px) { .wrap { max-width: 860px; } }
+  @media (min-width: 780px) { .game-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) and (orientation: landscape) {
+    .uk-card.big { font-size: 24px; }
+    .uk-card.mini { font-size: 8px; }
+    .uk-hand-inner .uk-card { font-size: 21px; }
+    #screen-uk-play { padding-bottom: 270px; }
+  }
+
+  .game-menu { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); right: 14px; z-index: 30; display: flex; gap: 8px; align-items: center; }
+  .gm-wide { display: flex; gap: 8px; align-items: center; }
+  .gm-end { font-family: inherit; font-size: 0.78rem; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--margin); color: var(--margin); background: var(--paper-raised); cursor: pointer; }
+  .gm-end:hover { background: var(--margin); color: #fff; }
+  .gm-burger { display: none; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--rule-strong); background: var(--paper-raised); color: var(--ink); font-size: 1.3rem; cursor: pointer; align-items: center; justify-content: center; }
+  @media (orientation: portrait), (max-width: 700px) { .gm-wide { display: none; } .gm-burger { display: flex; } }
+  body.in-game header.top .theme-toggle { display: none; }
+  .gm-scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 35; }
+  .gm-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(260px, 80vw); background: var(--paper-raised); border-left: 1px solid var(--rule); box-shadow: -6px 0 18px var(--shadow); transform: translateX(105%); transition: transform 0.22s ease; z-index: 40; padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .gm-panel.open { transform: translateX(0); }
+  .gm-panel-head { display: flex; align-items: center; justify-content: space-between; font-weight: 700; margin-bottom: 8px; }
+  .gm-close { background: none; border: none; color: var(--ink-soft); font-size: 1.1rem; cursor: pointer; padding: 6px; }
+  .modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.45); padding: 20px; }
+  .modal-box { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 12px; padding: 22px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 8px 28px var(--shadow); }
+  .modal-box p { margin: 0 0 16px; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -308,9 +343,6 @@
       <button class="btn btn-primary finish-btn" id="ihbFinishBtn" type="button">Bitirdim</button>
       <p class="small-note" id="ihbRoundNote">Cevaplar&#305;n rakibinden, tur bitene kadar gizli kal&#305;r.</p>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="ihbEndFromRoundBtn" type="button">Oyunu Sonland&#305;r</button>
-    </div>
   </section>
 
   <section id="screen-ihb-reveal" class="hidden">
@@ -322,7 +354,6 @@
     </div>
     <div class="btn-row">
       <button class="btn btn-primary" id="ihbNextRoundBtn" type="button">Sonraki Tur</button>
-      <button class="btn btn-secondary" id="ihbEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
     </div>
   </section>
 
@@ -334,9 +365,6 @@
       <div class="result-banner hidden" id="xoxResultBanner"></div>
       <button class="btn btn-primary finish-btn hidden" id="xoxNextBtn" type="button">Sonraki El</button>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="xoxEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
-    </div>
   </section>
 
   <section id="screen-rps-play" class="hidden">
@@ -347,9 +375,6 @@
       <div class="rps-reveal hidden" id="rpsRevealRow"></div>
       <div class="result-banner hidden" id="rpsResultBanner"></div>
       <button class="btn btn-primary finish-btn hidden" id="rpsNextBtn" type="button">Sonraki El</button>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="rpsEndGameBtn" type="button">Oyunu Sonland&#305;r</button>
     </div>
   </section>
 
@@ -376,9 +401,6 @@
         <button class="btn btn-primary hidden" id="ombNextBtn" type="button">Devam</button>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="ombEndGameBtn" type="button">Oyunu Sonlandır</button>
-    </div>
   </section>
 
   <section id="screen-bk-setup" class="hidden">
@@ -391,9 +413,6 @@
         <button class="btn btn-primary" id="bkReadyBtn" type="button">Hazırım</button>
       </div>
       <p class="small-note" id="bkSetupStatus"></p>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="bkEndFromSetupBtn" type="button">Oyunu Sonlandır</button>
     </div>
   </section>
 
@@ -441,14 +460,11 @@
       <div></div>
       <div class="bk-notes" id="bkNotesOpp"></div>
     </div>
-    <div class="btn-row" style="margin-top:18px;">
-      <button class="btn btn-secondary" id="bkEndGameBtn" type="button">Oyunu Sonlandır</button>
-    </div>
   </section>
 
   <section id="screen-uk-play" class="hidden">
     <div class="scoreboard" id="ukScoreboard"></div>
-    <div class="card">
+    <div class="card uk-stage">
       <div class="uk-opp" id="ukOpp"></div>
       <div class="uk-table">
         <button class="uk-deckbtn" id="ukDeckBtn" type="button"></button>
@@ -470,17 +486,18 @@
         </div>
         <button class="btn btn-secondary" id="ukPickCancel" type="button">Vazgeç</button>
       </div>
-      <div class="round-tag" id="ukHandLabel" style="text-align:center;margin-top:6px;"></div>
-      <div class="uk-hand" id="ukHand"></div>
       <div id="ukResultBox" class="hidden">
         <div class="result-banner" id="ukResultBanner"></div>
         <div class="bk-reason" id="ukReason"></div>
         <button class="btn btn-primary finish-btn" id="ukNextBtn" type="button">Sonraki El</button>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary hidden" id="ukPassBtn" type="button">Pas Geç</button>
-      <button class="btn btn-secondary" id="ukEndGameBtn" type="button">Oyunu Sonlandır</button>
+    <div class="uk-tray">
+      <div class="uk-tray-head">
+        <span class="round-tag" id="ukHandLabel" style="margin:0;"></span>
+        <button class="btn btn-primary hidden" id="ukPassBtn" type="button">Pas Geç</button>
+      </div>
+      <div class="uk-hand" id="ukHand"></div>
     </div>
   </section>
 
@@ -497,6 +514,28 @@
     </div>
   </section>
 </div>
+<div class="game-menu hidden" id="gameMenu">
+  <div class="gm-wide">
+    <button class="theme-toggle" id="gmTheme" type="button">koyu / açık</button>
+    <button class="gm-end" id="gmEnd" type="button">Oyunu Sonlandır</button>
+  </div>
+  <button class="gm-burger" id="gmBurger" type="button" aria-label="Menü">☰</button>
+</div>
+<div class="gm-scrim hidden" id="gmScrim"></div>
+<div class="gm-panel" id="gmPanel">
+  <div class="gm-panel-head"><span>Menü</span><button class="gm-close" id="gmClose" type="button" aria-label="Kapat">✕</button></div>
+  <button class="btn btn-secondary" id="gmPanelTheme" type="button">Koyu / açık tema</button>
+  <button class="btn btn-danger" id="gmPanelEnd" type="button">Oyunu Sonlandır</button>
+</div>
+<div class="modal hidden" id="confirmModal">
+  <div class="modal-box">
+    <p>Oyunu sonlandırmak istediğine emin misin? Sonuç ekranı açılacak.</p>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn btn-danger" id="confirmYes" type="button">Evet, sonlandır</button>
+      <button class="btn btn-secondary" id="confirmNo" type="button">Vazgeç</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -512,16 +551,16 @@
   var RPS_BEATS = { tas: "makas", kagit: "tas", makas: "kagit" };
   var RPS_LABELS = { tas: "\u270a Ta\u015f", kagit: "\u270b Ka\u011f\u0131t", makas: "\u270c\ufe0f Makas" };
   var GAME_DEFS = [
-    { id: "ihb", title: "\u0130sim, \u015eehir, Hayvan, Bitki", desc: "Harf d\u00fc\u015fer, ayn\u0131 anda yazars\u0131n\u0131z.", icon: "\u270f\ufe0f" },
-    { id: "xox", title: "XOX", desc: "Klasik 3x3 tahta oyunu.", icon: "\u274c" },
-    { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "Ayn\u0131 anda se\u00e7, kazanan\u0131 g\u00f6r.", icon: "\u270a" },
-    { id: "omb", title: "O mu bu mu?", desc: "32 itemlik turnuva, eşleşme eşleşme elenir.", icon: "🆚" },
+    { id: "ihb", title: "\u0130sim, \u015eehir, Hayvan, Bitki", desc: "", icon: "\u270f\ufe0f" },
+    { id: "xox", title: "XOX", desc: "", icon: "\u274c" },
+    { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "", icon: "\u270a" },
+    { id: "omb", title: "O mu bu mu?", desc: "", icon: "🆚" },
     { id: "bk", title: "Ben kimim?", desc: "", icon: "🕵️" },
     { id: "uk", title: "Kart Oyunu", desc: "", icon: "🃏" }
   ];
 
   // Kart görselleri: dosyaları repoya yükle (örn. img/cards/r-5.png) ve klasörü yaz.
-  // Dosya adları: r-1 ... r-9, r-skip, r-plus2 (r=kırmızı, b=mavi, g=yeşil, p=mor), wild, plus4, back
+  // Dosya adları: r-1 ... r-9, r-skip, r-plus2 (r=kırmızı, b=mavi, g=yeşil, p=mor), wild, plus4, plus10, back
   // Tek tek eşlemek istersen CARD_IMAGES = { "r-5": "https://...png" } şeklinde de verebilirsin.
   var CARD_IMAGE_DIR = "";
   var CARD_IMAGE_EXT = "png";
@@ -593,10 +632,17 @@
     });
   })();
 
+  var IN_GAME_SCREENS = ["ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-play", "bk-setup", "bk-play", "uk-play"];
+  function closeGamePanel() { $("gmPanel").classList.remove("open"); hide("gmScrim"); }
   var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "bk-setup", "bk-play", "uk-play", "gameover"];
   function goScreen(name) {
     SCREENS.forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
     document.body.classList.toggle("home-mode", name === "home");
+    var inGame = IN_GAME_SCREENS.indexOf(name) >= 0;
+    document.body.classList.toggle("in-game", inGame);
+    document.body.classList.toggle("uk-mode", name === "uk-play");
+    $("gameMenu").classList.toggle("hidden", !inGame);
+    if (!inGame) { closeGamePanel(); hide("confirmModal"); }
   }
 
   function genCode() { var c = ""; for (var i = 0; i < 6; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]; return c; }
@@ -1003,9 +1049,7 @@
   }
 
   $("ihbFinishBtn").addEventListener("click", function () { ihbSendFinish(); });
-  $("ihbEndFromRoundBtn").addEventListener("click", function () { sendAction("endGame", { game: "ihb" }); });
   $("ihbNextRoundBtn").addEventListener("click", function () { sendAction("ihbNextRound", {}); });
-  $("ihbEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "ihb" }); });
 
   function renderIhbReveal() {
     goScreen("ihb-reveal");
@@ -1123,7 +1167,6 @@
   }
 
   $("xoxNextBtn").addEventListener("click", function () { sendAction("xoxNext", {}); });
-  $("xoxEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "xox" }); });
 
   // ================= RPS MODULE =================
   function rpsChoose(payload, actorPid) {
@@ -1206,7 +1249,6 @@
   }
 
   $("rpsNextBtn").addEventListener("click", function () { sendAction("rpsNext", {}); });
-  $("rpsEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "rps" }); });
 
   // ================= OMB MODULE (O mu bu mu?) =================
   function shuffleArr(arr) {
@@ -1404,7 +1446,6 @@
   $("ombCatBackBtn").addEventListener("click", function () { sendAction("backToHub", {}); });
   $("ombRollBtn").addEventListener("click", function () { sendAction("ombRoll", {}); });
   $("ombNextBtn").addEventListener("click", function () { sendAction("ombNext", {}); });
-  $("ombEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "omb" }); });
 
   // ================= BK MODULE (Ben kimim?) =================
   function bkNewRound(g) {
@@ -1678,14 +1719,14 @@
   $("bkRightBtn").addEventListener("click", function () { sendAction("bkJudge", { correct: true }); });
   $("bkWrongBtn").addEventListener("click", function () { sendAction("bkJudge", { correct: false }); });
   $("bkNextBtn").addEventListener("click", function () { sendAction("bkNext", {}); });
-  $("bkEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "bk" }); });
-  $("bkEndFromSetupBtn").addEventListener("click", function () { sendAction("endGame", { game: "bk" }); });
 
   // ================= UK MODULE (Kart oyunu) =================
   var UK_COLORS = ["r", "b", "g", "p"];
   var UK_COLOR_NAMES = { r: "Kırmızı", b: "Mavi", g: "Yeşil", p: "Mor" };
   var UK_NUMBER_COPIES = 2;
   var UK_ELIM_AT = 25;
+  var UK_WILD_COUNT = 12;
+  var UK_PLUS10_COUNT = 2;
 
   function ukBuildDeck() {
     var deck = [], id = 0;
@@ -1694,14 +1735,16 @@
       for (var s = 0; s < 2; s++) deck.push({ id: id++, c: c, t: "skip", v: 0 });
       for (var p = 0; p < 2; p++) deck.push({ id: id++, c: c, t: "plus2", v: 0 });
     });
-    for (var w = 0; w < 4; w++) deck.push({ id: id++, c: null, t: "wild", v: 0 });
+    for (var w = 0; w < UK_WILD_COUNT; w++) deck.push({ id: id++, c: null, t: "wild", v: 0 });
     for (var f = 0; f < 4; f++) deck.push({ id: id++, c: null, t: "plus4", v: 0 });
+    for (var t10 = 0; t10 < UK_PLUS10_COUNT; t10++) deck.push({ id: id++, c: null, t: "plus10", v: 0 });
     return deck;
   }
 
   function ukCardLabel(card) {
     if (card.t === "wild") return "Renk Değiştir";
     if (card.t === "plus4") return "+4";
+    if (card.t === "plus10") return "+10";
     var cn = UK_COLOR_NAMES[card.c];
     if (card.t === "n") return cn + " " + card.v;
     if (card.t === "skip") return cn + " Pas";
@@ -1729,6 +1772,7 @@
     g.color = start.c;
     g.pending = null;
     g.drawnId = null;
+    g.afterPenalty = false;
     g.result = null;
     g.log = "El başladı.";
     ukSync(g);
@@ -1754,10 +1798,11 @@
   function ukPlayable(card, g) {
     if (g.drawnId !== null && card.id !== g.drawnId) return false;
     if (g.pending) {
-      if (g.pending.kind === "plus4") return card.t === "plus4";
-      return card.t === "plus2" || card.t === "plus4";
+      var heavy = card.t === "plus4" || card.t === "plus10";
+      if (g.pending.kind === "heavy") return heavy;
+      return card.t === "plus2" || heavy;
     }
-    if (card.t === "wild" || card.t === "plus4") return true;
+    if (card.t === "wild" || card.t === "plus4" || card.t === "plus10") return true;
     if (card.c === g.color) return true;
     var top = g.top;
     if (card.t === "n") return top.t === "n" && top.v === card.v;
@@ -1792,11 +1837,12 @@
     if (idx < 0) return;
     var card = hand[idx];
     if (!ukPlayable(card, g)) return;
-    var isWild = card.t === "wild" || card.t === "plus4";
+    var isWild = card.t === "wild" || card.t === "plus4" || card.t === "plus10";
     if (isWild && UK_COLORS.indexOf(payload.color) < 0) return;
     hand.splice(idx, 1);
     ukDiscard.push(card);
     g.drawnId = null;
+    g.afterPenalty = false;
     g.color = isWild ? payload.color : card.c;
     var opp = otherPid(actor);
     var log = bkName(actor) + " " + ukCardLabel(card) + " oynadı";
@@ -1804,9 +1850,9 @@
     if (card.t === "skip") {
       g.turn = actor;
       log += " — " + bkName(opp) + " pas geçti";
-    } else if (card.t === "plus2" || card.t === "plus4") {
-      var add = card.t === "plus2" ? 2 : 4;
-      g.pending = { n: (g.pending ? g.pending.n : 0) + add, kind: card.t };
+    } else if (card.t === "plus2" || card.t === "plus4" || card.t === "plus10") {
+      var add = card.t === "plus2" ? 2 : (card.t === "plus4" ? 4 : 10);
+      g.pending = { n: (g.pending ? g.pending.n : 0) + add, kind: card.t === "plus2" ? "plus2" : "heavy" };
       g.turn = opp;
     } else {
       g.turn = opp;
@@ -1824,10 +1870,11 @@
     if (g.pending) {
       var n = g.pending.n;
       var got = ukDrawCards(actor, n);
-      g.log = bkName(actor) + " " + got.length + " kart çekti (ceza)";
+      g.log = bkName(actor) + " " + got.length + " kart çekti (ceza), şimdi oynayabilir";
       g.pending = null;
       g.drawnId = null;
-      g.turn = opp;
+      g.afterPenalty = true;
+      g.turn = actor;
       ukSync(g);
       if (ukCheckElim(g)) return;
       broadcastState();
@@ -1836,6 +1883,7 @@
     if (g.drawnId !== null) return;
     var hasPlayable = ukHands[actor].some(function (c) { return ukPlayable(c, g); });
     if (hasPlayable) return;
+    g.afterPenalty = false;
     var drawn = ukDrawCards(actor, 1);
     if (!drawn.length) {
       g.turn = opp;
@@ -1861,6 +1909,7 @@
     var g = state.games.uk;
     if (!g || g.phase !== "playing" || g.turn !== actor || g.drawnId === null) return;
     g.drawnId = null;
+    g.afterPenalty = false;
     g.turn = otherPid(actor);
     g.log = bkName(actor) + " pas geçti";
     broadcastState();
@@ -1878,6 +1927,7 @@
   function ukKey(card) {
     if (card.t === "wild") return "wild";
     if (card.t === "plus4") return "plus4";
+    if (card.t === "plus10") return "plus10";
     return card.c + "-" + (card.t === "n" ? card.v : card.t);
   }
   function ukImgUrl(key) {
@@ -1893,6 +1943,7 @@
     else if (card.t === "skip") { sym = ukBanSvg(); corner = "P"; }
     else if (card.t === "plus2") { sym = "+2"; corner = "+2"; }
     else if (card.t === "plus4") { sym = "+4"; corner = "+4"; symCls += " num"; }
+    else if (card.t === "plus10") { sym = "+10"; corner = "+10"; symCls += " num10"; }
     else { sym = "RENK"; corner = "R"; }
     var url = ukImgUrl(ukKey(card));
     var img = url ? '<img src="' + esc(url) + '" alt="">' : "";
@@ -1909,7 +1960,7 @@
   }
   function ukSortRank(card) {
     var cr = card.c ? UK_COLORS.indexOf(card.c) : 4;
-    var tr = card.t === "n" ? card.v : (card.t === "skip" ? 10 : (card.t === "plus2" ? 11 : (card.t === "wild" ? 12 : 13)));
+    var tr = card.t === "n" ? card.v : (card.t === "skip" ? 10 : (card.t === "plus2" ? 11 : (card.t === "wild" ? 12 : (card.t === "plus4" ? 13 : 14))));
     return cr * 100 + tr;
   }
 
@@ -1943,9 +1994,9 @@
     var status = "";
     if (playing) {
       if (myTurn) {
-        if (g.pending) status = hasPlayable ? "Ceza bekliyor (+" + g.pending.n + ") — üstüne +2/+4 atabilir ya da cezayı çekebilirsin" : "Ceza bekliyor (+" + g.pending.n + ") — desteden çekmen gerekiyor";
+        if (g.pending) status = hasPlayable ? "Ceza bekliyor (+" + g.pending.n + ") — üstüne " + (g.pending.kind === "heavy" ? "+4/+10" : "+2/+4/+10") + " atabilir ya da cezayı çekebilirsin" : "Ceza bekliyor (+" + g.pending.n + ") — desteden çek, sonra kart oynayabilirsin";
         else if (g.drawnId !== null) status = "Çektiğin kart oynanabilir — oyna ya da pas geç";
-        else if (hasPlayable) status = "Sıra sende — bir kart oyna";
+        else if (hasPlayable) status = g.afterPenalty ? "Cezayı çektin — şimdi bir kart oynayabilirsin" : "Sıra sende — bir kart oyna";
         else status = "Oynanabilir kartın yok — desteden kart çek";
       } else status = bkName(g.turn) + " oynuyor…";
     }
@@ -1954,11 +2005,12 @@
 
     var sorted = hand.slice().sort(function (a, b) { return ukSortRank(a) - ukSortRank(b); });
     $("ukHandLabel").textContent = "Elin (" + hand.length + ")";
-    $("ukHand").innerHTML = sorted.map(function (c) {
+    var dens = sorted.length > 16 ? "d3" : (sorted.length > 9 ? "d2" : "");
+    $("ukHand").innerHTML = '<div class="uk-hand-inner ' + dens + '">' + sorted.map(function (c) {
       var ok = myTurn && ukPlayable(c, g);
       var cls = (ok ? "playable" : (myTurn ? "dim" : "")) + (g.drawnId === c.id ? " drawn" : "");
       return ukCardHtml(c, cls.trim(), ' data-id="' + c.id + '"');
-    }).join("");
+    }).join("") + "</div>";
     ukHideBroken($("ukOpp")); ukHideBroken($("ukDeckBtn")); ukHideBroken($("ukDiscard")); ukHideBroken($("ukHand"));
 
     $("ukColorPick").classList.toggle("hidden", ukPickId === null);
@@ -1995,7 +2047,6 @@
   $("ukDeckBtn").addEventListener("click", function () { sendAction("ukDraw", {}); });
   $("ukPassBtn").addEventListener("click", function () { sendAction("ukPass", {}); });
   $("ukNextBtn").addEventListener("click", function () { sendAction("ukNext", {}); });
-  $("ukEndGameBtn").addEventListener("click", function () { sendAction("endGame", { game: "uk" }); });
 
   // ================= HUB =================
   function renderHub(code) {
@@ -2110,6 +2161,21 @@
       else renderBkPlay();
     }
   }
+
+  // ---------- game menu (top-right) ----------
+  $("gmBurger").addEventListener("click", function () { $("gmPanel").classList.add("open"); show("gmScrim"); });
+  $("gmScrim").addEventListener("click", closeGamePanel);
+  $("gmClose").addEventListener("click", closeGamePanel);
+  $("gmTheme").addEventListener("click", function () { $("themeToggle").click(); });
+  $("gmPanelTheme").addEventListener("click", function () { $("themeToggle").click(); });
+  function askEndGame() { closeGamePanel(); show("confirmModal"); }
+  $("gmEnd").addEventListener("click", askEndGame);
+  $("gmPanelEnd").addEventListener("click", askEndGame);
+  $("confirmNo").addEventListener("click", function () { hide("confirmModal"); });
+  $("confirmYes").addEventListener("click", function () {
+    hide("confirmModal");
+    if (state && state.activeGame) sendAction("endGame", { game: state.activeGame });
+  });
 
   // ---------- leaving ----------
   function leaveRoom() {
