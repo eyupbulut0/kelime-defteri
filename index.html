@@ -206,7 +206,7 @@
   .bk-note.c3 { background: #CDB6EC; }
 
   :root { --uk-r: #C93C3C; --uk-b: #2F6FCB; --uk-g: #2E8B57; --uk-p: #7B4BB8; }
-  .uk-card { --cc: #2b2b33; font-size: 14px; width: 4.1em; height: 6.1em; flex: 0 0 auto; border-radius: 0.7em; background: var(--cc); border: 0.2em solid #fff; box-shadow: 0 2px 5px var(--shadow); position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: "Libre Franklin", sans-serif; font-weight: 800; user-select: none; box-sizing: border-box; transition: transform 0.12s ease; }
+  .uk-card { --cc: #2b2b33; font-size: 14px; width: 4.1em; height: 6.15em; flex: 0 0 auto; border-radius: 0.7em; background: var(--cc); border: 0.2em solid #fff; box-shadow: 0 2px 5px var(--shadow); position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: "Libre Franklin", sans-serif; font-weight: 800; user-select: none; box-sizing: border-box; transition: transform 0.12s ease; }
   .uk-card.c-r { --cc: var(--uk-r); } .uk-card.c-b { --cc: var(--uk-b); } .uk-card.c-g { --cc: var(--uk-g); } .uk-card.c-p { --cc: var(--uk-p); }
   .uk-card .oval { width: 76%; height: 64%; border-radius: 50%; background: #fff; transform: rotate(-22deg); display: flex; align-items: center; justify-content: center; }
   .uk-card .sym { transform: rotate(22deg); color: var(--cc); font-size: 2em; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
@@ -254,6 +254,8 @@
   .uk-colorbtn { font-family: inherit; font-weight: 700; font-size: 0.82rem; color: #fff; border: none; border-radius: 8px; padding: 9px 14px; cursor: pointer; background: var(--cc); }
   .uk-colorbtn.c-r { --cc: var(--uk-r); } .uk-colorbtn.c-b { --cc: var(--uk-b); } .uk-colorbtn.c-g { --cc: var(--uk-g); } .uk-colorbtn.c-p { --cc: var(--uk-p); }
   .uk-card.wild .sym.num10 { font-size: 1.5em; }
+  .uk-card.img-ok { border-color: transparent; background: transparent; }
+  .uk-card.img-ok .oval, .uk-card.img-ok .corner { visibility: hidden; }
   #screen-uk-play { padding-bottom: 240px; }
   .uk-tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: color-mix(in srgb, var(--paper-raised) 94%, transparent); backdrop-filter: blur(6px); border-top: 1px solid var(--rule); box-shadow: 0 -4px 14px var(--shadow); padding: 6px 8px calc(10px + env(safe-area-inset-bottom, 0px)); }
   .uk-tray-head { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 0 10px; min-height: 36px; }
@@ -562,7 +564,7 @@
   // Kart görselleri: dosyaları repoya yükle (örn. img/cards/r-5.png) ve klasörü yaz.
   // Dosya adları: r-1 ... r-9, r-skip, r-plus2 (r=kırmızı, b=mavi, g=yeşil, p=mor), wild, plus4, plus10, back
   // Tek tek eşlemek istersen CARD_IMAGES = { "r-5": "https://...png" } şeklinde de verebilirsin.
-  var CARD_IMAGE_DIR = "";
+  var CARD_IMAGE_DIR = "CardGame/cards/";
   var CARD_IMAGE_EXT = "png";
   var CARD_IMAGES = {};
 
@@ -588,6 +590,8 @@
   var ukDiscard = [];
   var ukGuestHand = [];
   var ukPickId = null;
+  var ukImgOk = {};
+  var ukPreloaded = false;
 
   var peer = null, conn = null, role = null, myPid = null;
   var state = null;
@@ -1947,15 +1951,35 @@
     else { sym = "RENK"; corner = "R"; }
     var url = ukImgUrl(ukKey(card));
     var img = url ? '<img src="' + esc(url) + '" alt="">' : "";
+    if (url && ukImgOk[url]) cls = (cls ? cls + " " : "") + "img-ok";
     return '<div class="uk-card ' + (card.c ? "c-" + card.c : "wild") + (cls ? " " + cls : "") + '"' + (attrs || "") + '><span class="corner">' + corner + '</span><span class="oval"><span class="' + symCls + '">' + sym + "</span></span>" + img + "</div>";
   }
   function ukBackHtml(cls) {
     var url = ukImgUrl("back");
+    if (url && ukImgOk[url]) cls = (cls ? cls + " " : "") + "img-ok";
     return '<div class="uk-card back ' + (cls || "") + '"><span class="oval"><span class="sym">M&amp;C</span></span>' + (url ? '<img src="' + esc(url) + '" alt="">' : "") + "</div>";
   }
   function ukHideBroken(root) {
     Array.prototype.forEach.call(root.querySelectorAll(".uk-card img"), function (im) {
+      var ok = function () { ukImgOk[im.getAttribute("src")] = true; if (im.parentNode) im.parentNode.classList.add("img-ok"); };
+      if (im.complete && im.naturalWidth > 0) ok();
+      im.addEventListener("load", ok);
       im.addEventListener("error", function () { this.style.display = "none"; });
+    });
+  }
+  function ukPreload() {
+    if (ukPreloaded || !CARD_IMAGE_DIR) return;
+    ukPreloaded = true;
+    var keys = ["wild", "plus4", "plus10", "back"];
+    UK_COLORS.forEach(function (c) {
+      for (var v = 1; v <= 9; v++) keys.push(c + "-" + v);
+      keys.push(c + "-skip", c + "-plus2");
+    });
+    keys.forEach(function (k) {
+      var url = ukImgUrl(k);
+      var im = new Image();
+      im.onload = function () { ukImgOk[url] = true; };
+      im.src = url;
     });
   }
   function ukSortRank(card) {
@@ -1966,6 +1990,7 @@
 
   function renderUk() {
     goScreen("uk-play");
+    ukPreload();
     var g = state.games.uk;
     var me = myPid, opp = otherPid(myPid);
     var hand = (role === "host" ? ukHands.host : ukGuestHand) || [];
