@@ -242,11 +242,11 @@
   .uk-pending { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.95rem; color: #fff; background: var(--margin); border-radius: 8px; padding: 4px 10px; }
   .uk-status { text-align: center; font-weight: 600; font-size: 0.92rem; margin: 10px 0 2px; }
   .uk-log { text-align: center; font-size: 0.78rem; color: var(--ink-soft); min-height: 1.2em; margin-bottom: 8px; }
-  .uk-hand { overflow-x: auto; overflow-y: hidden; padding: 26px 10px 8px; }
+  .uk-hand { overflow-x: auto; overflow-y: hidden; padding: 36px 10px 8px; }
   .uk-hand-inner { display: flex; width: max-content; margin: 0 auto; }
-  .uk-hand-inner .uk-card { font-size: 17px; margin-left: 6px; }
-  .uk-hand-inner.d2 .uk-card { margin-left: -1.1em; }
-  .uk-hand-inner.d3 .uk-card { margin-left: -1.8em; }
+  .uk-hand-inner .uk-card { font-size: 21px; margin-left: 6px; }
+  .uk-hand-inner.d2 .uk-card { margin-left: -1.3em; }
+  .uk-hand-inner.d3 .uk-card { margin-left: -2em; }
   .uk-hand-inner .uk-card:first-child { margin-left: 0; }
   .uk-colorpick { text-align: center; margin: 10px 0; }
   .uk-colorpick-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
@@ -256,7 +256,7 @@
   .uk-card.wild .sym.num10 { font-size: 1.5em; }
   .uk-card.img-ok { border-color: transparent; background: transparent; }
   .uk-card.img-ok .oval, .uk-card.img-ok .corner { visibility: hidden; }
-  #screen-uk-play { padding-bottom: 240px; }
+  #screen-uk-play { padding-bottom: 285px; }
   .uk-tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: color-mix(in srgb, var(--paper-raised) 94%, transparent); backdrop-filter: blur(6px); border-top: 1px solid var(--rule); box-shadow: 0 -4px 14px var(--shadow); padding: 6px 8px calc(10px + env(safe-area-inset-bottom, 0px)); }
   .uk-tray-head { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 0 10px; min-height: 36px; }
   body.uk-mode .wrap { max-width: 1240px; }
@@ -265,8 +265,8 @@
   @media (min-width: 900px) and (orientation: landscape) {
     .uk-card.big { font-size: 24px; }
     .uk-card.mini { font-size: 8px; }
-    .uk-hand-inner .uk-card { font-size: 21px; }
-    #screen-uk-play { padding-bottom: 270px; }
+    .uk-hand-inner .uk-card { font-size: 26px; }
+    #screen-uk-play { padding-bottom: 325px; }
   }
 
   .game-menu { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); right: 14px; z-index: 30; display: flex; gap: 8px; align-items: center; }
@@ -2057,7 +2057,7 @@
     var hand = (role === "host" ? ukHands.host : ukGuestHand) || [];
     var card = hand.filter(function (c) { return c.id === id; })[0];
     if (!card) return;
-    if (card.t === "wild" || card.t === "plus4") { ukPickId = id; renderUk(); return; }
+    if (card.t === "wild" || card.t === "plus4" || card.t === "plus10") { ukPickId = id; renderUk(); return; }
     sendAction("ukPlay", { id: id });
   });
   $("ukColorPick").addEventListener("click", function (e) {
