@@ -284,10 +284,15 @@
   .modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.45); padding: 20px; }
   .modal-box { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 12px; padding: 22px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 8px 28px var(--shadow); }
   .modal-box p { margin: 0 0 16px; line-height: 1.4; }
+
+  /* Arka plan logosu: %70 saydam = %30 opaklık. Değiştirmek için --logo-opacity (0 ile 1 arası) */
+  :root { --logo-opacity: 0.3; }
+  .bg-logo { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); height: min(72vh, 600px); width: auto; max-width: 80vw; object-fit: contain; opacity: var(--logo-opacity); pointer-events: none; user-select: none; z-index: 0; }
 </style>
 </head>
 <body>
 <div class="margin-line"></div>
+<img class="bg-logo" src="Misc/logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
 <div class="wrap">
   <header class="top">
     <div class="brand">Moon&amp;Cloud Artz</div>
