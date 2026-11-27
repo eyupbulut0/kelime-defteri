@@ -288,6 +288,44 @@
   /* Arka plan logosu: %70 saydam = %30 opaklık. Değiştirmek için --logo-opacity (0 ile 1 arası) */
   :root { --logo-opacity: 0.3; }
   .bg-logo { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); height: min(72vh, 600px); width: auto; max-width: 80vw; object-fit: contain; opacity: var(--logo-opacity); pointer-events: none; user-select: none; z-index: 0; }
+
+  body.f7-mode .wrap { max-width: 1240px; }
+  .f7-board { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 760px), (orientation: portrait) { .f7-board { grid-template-columns: 1fr; } }
+  .f7-panel { background: var(--paper-raised); border: 2px solid var(--rule); border-radius: 12px; padding: 12px; min-width: 0; }
+  .f7-panel.turn { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
+  .f7-panel.bust .f7-card { filter: grayscale(0.85); opacity: 0.7; }
+  .f7-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .f7-name { font-weight: 700; font-size: 1.02rem; margin-right: 6px; }
+  .f7-bank { font-family: "IBM Plex Mono", monospace; font-size: 0.9rem; color: var(--ink-soft); }
+  .f7-bank b { color: var(--ink); font-size: 1.15rem; }
+  .f7-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: color-mix(in srgb, var(--ink) 10%, transparent); margin-right: 4px; }
+  .f7-badge.bad { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); }
+  .f7-badge.ice { background: color-mix(in srgb, var(--focus) 22%, transparent); color: var(--focus); }
+  .f7-badge.turn { background: var(--focus); color: var(--paper); }
+  .f7-badge.dbl { background: var(--accent-mustard); color: #fff; }
+  .f7-live { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 10px; }
+  .f7-cols { display: grid; grid-template-columns: 1fr 104px; gap: 12px; }
+  .f7-col-label { font-size: 0.68rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
+  .f7-nums, .f7-acts { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; min-height: 6em; }
+  .f7-acts { border-left: 1px dashed var(--rule-strong); padding-left: 12px; }
+  .f7-empty { font-size: 0.74rem; color: var(--ink-soft); font-style: italic; }
+  .f7-card { font-size: 16px; width: 3.7em; height: 5.4em; border-radius: 0.6em; border: 0.18em solid #fff; box-shadow: 0 2px 5px var(--shadow); position: relative; overflow: hidden; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-family: "Libre Franklin", sans-serif; font-weight: 800; box-sizing: border-box; transition: transform 0.12s ease; user-select: none; flex: 0 0 auto; }
+  .f7-card.num { background: hsl(var(--h, 0) 55% 40%); }
+  .f7-card.num .v { font-size: 2.2em; line-height: 1; }
+  .f7-card.act { background: #2a2733; }
+  .f7-card.act .ic { font-size: 1.7em; line-height: 1.1; }
+  .f7-card.act .nm { font-size: 0.55em; text-align: center; padding: 0 2px; margin-top: 2px; line-height: 1.1; }
+  .f7-card.used { opacity: 0.4; }
+  .f7-card.sel { cursor: pointer; outline: 3px solid var(--accent-mustard); outline-offset: 1px; transform: translateY(-4px); }
+  .f7-card.sel:hover { transform: translateY(-8px) scale(1.06); }
+  .f7-card.sel.chosen { outline-color: var(--focus); }
+  .f7-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .f7-card.img-ok { border-color: transparent; background: transparent; }
+  .f7-card.img-ok .v, .f7-card.img-ok .ic, .f7-card.img-ok .nm { visibility: hidden; }
+  .f7-bar { margin-bottom: 0; }
+  .f7-meta { text-align: center; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 6px; }
+  @media (min-width: 900px) and (orientation: landscape) { .f7-card { font-size: 20px; } .f7-cols { grid-template-columns: 1fr 130px; } }
 </style>
 </head>
 <body>
@@ -508,6 +546,29 @@
     </div>
   </section>
 
+  <section id="screen-f7-play" class="hidden">
+    <div class="f7-board" id="f7Board">
+      <div class="f7-panel" id="f7PanelMe"></div>
+      <div class="f7-panel" id="f7PanelOpp"></div>
+    </div>
+    <div class="card f7-bar">
+      <div class="f7-meta" id="f7Meta"></div>
+      <div class="uk-status" id="f7Status"></div>
+      <div class="uk-log" id="f7Log"></div>
+      <div class="btn-row" id="f7Btns" style="justify-content:center;">
+        <button class="btn btn-primary" id="f7DrawBtn" type="button">Kart Çek</button>
+        <button class="btn btn-secondary" id="f7StayBtn" type="button">Dur</button>
+        <button class="btn btn-danger hidden" id="f7FreezeOppBtn" type="button">Rakibi dondur</button>
+        <button class="btn btn-secondary hidden" id="f7FreezeSelfBtn" type="button">Kendini dondur</button>
+      </div>
+      <div id="f7ResultBox" class="hidden">
+        <div class="result-banner" id="f7ResultBanner"></div>
+        <div class="bk-reveal" id="f7ResultRows"></div>
+        <button class="btn btn-primary finish-btn" id="f7NextBtn" type="button">Sonraki El</button>
+      </div>
+    </div>
+  </section>
+
   <section id="screen-gameover" class="hidden">
     <div class="card" style="text-align:center;">
       <div class="round-tag" id="gameoverTitle">Oyun Bitti</div>
@@ -563,8 +624,13 @@
     { id: "rps", title: "Ta\u015f, Ka\u011f\u0131t, Makas", desc: "", icon: "\u270a" },
     { id: "omb", title: "O mu bu mu?", desc: "", icon: "🆚" },
     { id: "bk", title: "Ben kimim?", desc: "", icon: "🕵️" },
-    { id: "uk", title: "Kart Oyunu", desc: "", icon: "🃏" }
+    { id: "uk", title: "Kart Oyunu", desc: "", icon: "🃏" },
+    { id: "f7", title: "Fit 7", desc: "", icon: "🎴" }
   ];
+
+  // Fit 7 kart görselleri (isteğe bağlı): klasörü yaz, dosya adları n-1 ... n-12, second, freeze, swap, burn, double
+  var F7_IMAGE_DIR = "";
+  var F7_IMAGE_EXT = "png";
 
   // Kart görselleri: dosyaları repoya yükle (örn. img/cards/r-5.png) ve klasörü yaz.
   // Dosya adları: r-1 ... r-9, r-skip, r-plus2 (r=kırmızı, b=mavi, g=yeşil, p=mor), wild, plus4, plus10, back
@@ -597,6 +663,8 @@
   var ukPickId = null;
   var ukImgOk = {};
   var ukPreloaded = false;
+  var f7Deck = [];
+  var f7SelOwn = null;
 
   var peer = null, conn = null, role = null, myPid = null;
   var state = null;
@@ -641,15 +709,16 @@
     });
   })();
 
-  var IN_GAME_SCREENS = ["ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-play", "bk-setup", "bk-play", "uk-play"];
+  var IN_GAME_SCREENS = ["ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-play", "bk-setup", "bk-play", "uk-play", "f7-play"];
   function closeGamePanel() { $("gmPanel").classList.remove("open"); hide("gmScrim"); }
-  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "bk-setup", "bk-play", "uk-play", "gameover"];
+  var SCREENS = ["home", "hub", "ihb-round", "ihb-reveal", "xox-play", "rps-play", "omb-cats", "omb-play", "bk-setup", "bk-play", "uk-play", "f7-play", "gameover"];
   function goScreen(name) {
     SCREENS.forEach(function (s) { if (s === name) show("screen-" + s); else hide("screen-" + s); });
     document.body.classList.toggle("home-mode", name === "home");
     var inGame = IN_GAME_SCREENS.indexOf(name) >= 0;
     document.body.classList.toggle("in-game", inGame);
     document.body.classList.toggle("uk-mode", name === "uk-play");
+    document.body.classList.toggle("f7-mode", name === "f7-play");
     $("gameMenu").classList.toggle("hidden", !inGame);
     if (!inGame) { closeGamePanel(); hide("confirmModal"); }
   }
@@ -842,6 +911,14 @@
     if (type === "ukDraw") { ukDraw(actorPid); return; }
     if (type === "ukPass") { ukPass(actorPid); return; }
     if (type === "ukNext") { ukNext(); return; }
+
+    if (type === "f7Draw") { f7Draw(actorPid); return; }
+    if (type === "f7Stay") { f7Stay(actorPid); return; }
+    if (type === "f7Freeze") { f7Freeze(payload, actorPid); return; }
+    if (type === "f7Swap") { f7Swap(payload, actorPid); return; }
+    if (type === "f7Burn") { f7Burn(payload, actorPid); return; }
+    if (type === "f7Next") { f7Next(); return; }
+    if (type === "f7Finish") { f7Finish(); return; }
   }
 
   function doEnterGame(gameId) {
@@ -870,6 +947,14 @@
       clearOmbTimeout();
       state.games.omb = { phase: "category" };
       state.activeGame = "omb";
+      broadcastState();
+      return;
+    }
+    if (gameId === "f7") {
+      var fg = { sid: Date.now(), scores: { host: 0, guest: 0 }, target: F7_TARGET, roundsPlayed: 0, round: 0, starter: Math.random() < 0.5 ? "host" : "guest" };
+      f7Deal(fg);
+      state.games.f7 = fg;
+      state.activeGame = "f7";
       broadcastState();
       return;
     }
@@ -1965,7 +2050,7 @@
     return '<div class="uk-card back ' + (cls || "") + '"><span class="oval"><span class="sym">M&amp;C</span></span>' + (url ? '<img src="' + esc(url) + '" alt="">' : "") + "</div>";
   }
   function ukHideBroken(root) {
-    Array.prototype.forEach.call(root.querySelectorAll(".uk-card img"), function (im) {
+    Array.prototype.forEach.call(root.querySelectorAll(".uk-card img, .f7-card img"), function (im) {
       var ok = function () { ukImgOk[im.getAttribute("src")] = true; if (im.parentNode) im.parentNode.classList.add("img-ok"); };
       if (im.complete && im.naturalWidth > 0) ok();
       im.addEventListener("load", ok);
@@ -2078,6 +2163,359 @@
   $("ukPassBtn").addEventListener("click", function () { sendAction("ukPass", {}); });
   $("ukNextBtn").addEventListener("click", function () { sendAction("ukNext", {}); });
 
+  // ================= F7 MODULE (Fit 7) =================
+  var F7_TARGET = 200;
+  var F7_ACT = {
+    second: { name: "İkinci Şans", icon: "🛡️" },
+    freeze: { name: "Dondur", icon: "❄️" },
+    swap: { name: "Takas", icon: "🔄" },
+    burn: { name: "Yakma", icon: "🔥" },
+    double: { name: "İkiye Katla", icon: "✖️" }
+  };
+  function f7ActName(t) { return F7_ACT[t].name; }
+
+  function f7BuildDeck() {
+    var deck = [], id = 0;
+    for (var v = 1; v <= 12; v++) for (var k = 0; k < v; k++) deck.push({ id: id++, t: "n", v: v });
+    var acts = { second: 3, swap: 3, freeze: 2, burn: 2, double: 2 };
+    Object.keys(acts).forEach(function (t) { for (var k = 0; k < acts[t]; k++) deck.push({ id: id++, t: t, v: 0 }); });
+    return deck;
+  }
+  function f7NewPlayer() { return { cards: [], actions: [], status: "active", drawn: 0, doubled: false }; }
+  function f7Sum(p) { return p.cards.reduce(function (a, c) { return a + c.v; }, 0); }
+  function f7ActiveIds(g) { return ["host", "guest"].filter(function (pid) { return g.pl[pid].status === "active"; }); }
+  function f7HasSecond(p) { return p.actions.some(function (a) { return a.t === "second" && !a.used; }); }
+  function f7UseSecond(p) {
+    for (var i = 0; i < p.actions.length; i++) {
+      if (p.actions[i].t === "second" && !p.actions[i].used) { p.actions[i].used = true; return true; }
+    }
+    return false;
+  }
+  function f7BurnTargets(g) {
+    var out = [];
+    ["host", "guest"].forEach(function (pid) {
+      var p = g.pl[pid];
+      if (p.status !== "active") return;
+      p.cards.forEach(function (c) { out.push({ pid: pid, id: c.id }); });
+      p.actions.forEach(function (a) { if (!a.used && (a.t === "second" || a.t === "double")) out.push({ pid: pid, id: a.id }); });
+    });
+    return out;
+  }
+  function f7HasTarget(g, actor, type) {
+    var po = g.pl[otherPid(actor)], pa = g.pl[actor];
+    if (type === "freeze") return true;
+    if (type === "swap") return po.status === "active" && po.cards.length > 0 && pa.cards.length > 0;
+    return f7BurnTargets(g).length > 0;
+  }
+
+  function f7Deal(g) {
+    g.round = (g.round || 0) + 1;
+    f7Deck = shuffleArr(f7BuildDeck());
+    g.pl = { host: f7NewPlayer(), guest: f7NewPlayer() };
+    g.phase = "playing";
+    g.turn = g.starter;
+    g.pend = null;
+    g.result = null;
+    g.gameWinner = null;
+    g.deckCount = f7Deck.length;
+    g.log = "El başladı.";
+  }
+
+  function f7EndRound(g, finisher, note) {
+    var pts = {}, why = {};
+    ["host", "guest"].forEach(function (pid) {
+      var p = g.pl[pid], sum = f7Sum(p);
+      if (p.status === "busted") { pts[pid] = 0; why[pid] = "busted"; }
+      else if (finisher === pid) { pts[pid] = sum + (p.doubled ? 30 : 15); why[pid] = "seven"; }
+      else if (p.doubled) { pts[pid] = 0; why[pid] = "doublefail"; }
+      else if (p.status === "stayed") { pts[pid] = sum; why[pid] = "stayed"; }
+      else if (p.status === "frozen") { pts[pid] = sum; why[pid] = "frozen"; }
+      else { pts[pid] = sum; why[pid] = "ended"; }
+      g.scores[pid] = (g.scores[pid] || 0) + pts[pid];
+    });
+    g.result = { pts: pts, why: why, finisher: finisher };
+    g.phase = "roundover";
+    g.pend = null;
+    g.roundsPlayed = (g.roundsPlayed || 0) + 1;
+    var h = g.scores.host, gu = g.scores.guest;
+    g.gameWinner = null;
+    if (h >= g.target || gu >= g.target) { if (h > gu) g.gameWinner = "host"; else if (gu > h) g.gameWinner = "guest"; }
+    if (note) g.log = note;
+    broadcastState();
+  }
+
+  function f7AfterTurn(g, actor) {
+    var p = g.pl[actor];
+    if (p.status === "active" && p.cards.length >= 7) { f7EndRound(g, actor); return; }
+    if (!f7ActiveIds(g).length) { f7EndRound(g, null); return; }
+    var opp = otherPid(actor);
+    g.turn = g.pl[opp].status === "active" ? opp : actor;
+    broadcastState();
+  }
+
+  function f7Draw(actor) {
+    var g = state.games.f7;
+    if (!g || g.phase !== "playing" || g.turn !== actor || g.pend) return;
+    var p = g.pl[actor];
+    if (p.status !== "active") return;
+    if (!f7Deck.length) { f7EndRound(g, null, "Deste bitti, el sona erdi."); return; }
+    var card = f7Deck.pop();
+    g.deckCount = f7Deck.length;
+    p.drawn++;
+    var nm = bkName(actor);
+    if (card.t === "n") {
+      if (p.cards.some(function (c) { return c.v === card.v; })) {
+        if (f7UseSecond(p)) g.log = nm + " " + card.v + " çekti — İkinci Şans onu kurtardı";
+        else { p.status = "busted"; g.log = nm + " " + card.v + " çekti — aynı sayı, elendi"; }
+      } else {
+        p.cards.push(card);
+        g.log = nm + " " + card.v + " çekti";
+      }
+    } else if (card.t === "second") {
+      if (f7HasSecond(p)) g.log = nm + " ikinci bir İkinci Şans çekti, atıldı";
+      else { p.actions.push({ id: card.id, t: "second", used: false }); g.log = nm + " İkinci Şans çekti"; }
+    } else if (card.t === "double") {
+      if (p.doubled) g.log = nm + " ikinci bir İkiye Katla çekti, atıldı";
+      else { p.doubled = true; p.actions.push({ id: card.id, t: "double", used: false }); g.log = nm + " İkiye Katla çekti — artık durmak yok, 7 kart şart!"; }
+    } else {
+      p.actions.push({ id: card.id, t: card.t, used: true });
+      var opp = otherPid(actor);
+      if (card.t === "freeze" && g.pl[opp].status !== "active") {
+        p.status = "frozen";
+        g.log = nm + " Dondur çekti, tek aktif oyuncu olduğu için kendini dondurdu";
+      } else if (!f7HasTarget(g, actor, card.t)) {
+        g.log = nm + " " + f7ActName(card.t) + " çekti, hedef yok — etkisiz";
+      } else {
+        g.pend = { type: card.t, by: actor };
+        g.log = nm + " " + f7ActName(card.t) + " çekti";
+        broadcastState();
+        return;
+      }
+    }
+    f7AfterTurn(g, actor);
+  }
+
+  function f7Stay(actor) {
+    var g = state.games.f7;
+    if (!g || g.phase !== "playing" || g.turn !== actor || g.pend) return;
+    var p = g.pl[actor];
+    if (p.status !== "active" || p.doubled || p.drawn < 1) return;
+    p.status = "stayed";
+    g.log = bkName(actor) + " durdu (" + f7Sum(p) + " puan)";
+    f7AfterTurn(g, actor);
+  }
+
+  function f7Freeze(payload, actor) {
+    var g = state.games.f7;
+    if (!g || g.phase !== "playing" || !g.pend || g.pend.type !== "freeze" || g.pend.by !== actor) return;
+    var target = payload.target;
+    if (target !== "host" && target !== "guest") return;
+    var t = g.pl[target];
+    if (t.status !== "active") return;
+    t.status = "frozen";
+    g.pend = null;
+    g.log = bkName(actor) + " " + (target === actor ? "kendini" : bkName(target) + " oyuncusunu") + " dondurdu";
+    f7AfterTurn(g, actor);
+  }
+
+  function f7Swap(payload, actor) {
+    var g = state.games.f7;
+    if (!g || g.phase !== "playing" || !g.pend || g.pend.type !== "swap" || g.pend.by !== actor) return;
+    var opp = otherPid(actor), pa = g.pl[actor], po = g.pl[opp];
+    if (po.status !== "active") return;
+    var ia = -1, io = -1, i;
+    for (i = 0; i < pa.cards.length; i++) if (pa.cards[i].id === payload.own) ia = i;
+    for (i = 0; i < po.cards.length; i++) if (po.cards[i].id === payload.other) io = i;
+    if (ia < 0 || io < 0) return;
+    var a = pa.cards.splice(ia, 1)[0], b = po.cards.splice(io, 1)[0];
+    pa.cards.push(b);
+    po.cards.push(a);
+    var notes = [];
+    [[pa, actor, b], [po, opp, a]].forEach(function (x) {
+      var pl = x[0], pid = x[1], recv = x[2];
+      var dups = pl.cards.filter(function (c) { return c.v === recv.v; }).length;
+      if (dups > 1) {
+        if (f7UseSecond(pl)) {
+          pl.cards = pl.cards.filter(function (c) { return c.id !== recv.id; });
+          notes.push(bkName(pid) + " İkinci Şans'la kurtuldu");
+        } else {
+          pl.status = "busted";
+          notes.push(bkName(pid) + " aynı sayıyı aldı, elendi");
+        }
+      }
+    });
+    g.pend = null;
+    g.log = bkName(actor) + " takas yaptı: " + a.v + " ↔ " + b.v + (notes.length ? " — " + notes.join(", ") : "");
+    f7AfterTurn(g, actor);
+  }
+
+  function f7Burn(payload, actor) {
+    var g = state.games.f7;
+    if (!g || g.phase !== "playing" || !g.pend || g.pend.type !== "burn" || g.pend.by !== actor) return;
+    var ok = f7BurnTargets(g).some(function (x) { return x.pid === payload.target && x.id === payload.cardId; });
+    if (!ok) return;
+    var t = g.pl[payload.target], i, what = "";
+    for (i = 0; i < t.cards.length; i++) {
+      if (t.cards[i].id === payload.cardId) { what = String(t.cards[i].v); t.cards.splice(i, 1); break; }
+    }
+    if (!what) {
+      for (i = 0; i < t.actions.length; i++) {
+        if (t.actions[i].id === payload.cardId) {
+          t.actions[i].used = true;
+          if (t.actions[i].t === "double") t.doubled = false;
+          what = f7ActName(t.actions[i].t);
+          break;
+        }
+      }
+    }
+    g.pend = null;
+    g.log = bkName(actor) + " yaktı: " + bkName(payload.target) + " oyuncusunun " + what + " kartı";
+    f7AfterTurn(g, actor);
+  }
+
+  function f7Next() {
+    var g = state.games.f7;
+    if (!g || g.phase !== "roundover" || g.gameWinner) return;
+    g.starter = otherPid(g.starter);
+    f7Deal(g);
+    broadcastState();
+  }
+
+  function f7Finish() {
+    var g = state.games.f7;
+    if (!g || g.phase !== "roundover" || !g.gameWinner) return;
+    g.phase = "gameover";
+    broadcastState();
+  }
+
+  // ---- F7 client ----
+  function f7ImgUrl(card) {
+    if (!F7_IMAGE_DIR) return "";
+    return F7_IMAGE_DIR + (card.t === "n" ? "n-" + card.v : card.t) + "." + F7_IMAGE_EXT;
+  }
+  function f7CardHtml(card, cls, attrs) {
+    var url = f7ImgUrl(card);
+    var img = url ? '<img src="' + esc(url) + '" alt="">' : "";
+    if (url && ukImgOk[url]) cls = (cls ? cls + " " : "") + "img-ok";
+    if (card.t === "n") {
+      return '<div class="f7-card num' + (cls ? " " + cls : "") + '" style="--h:' + ((card.v - 1) * 28) + '"' + (attrs || "") + '><span class="v">' + card.v + "</span>" + img + "</div>";
+    }
+    var a = F7_ACT[card.t];
+    return '<div class="f7-card act ' + card.t + (cls ? " " + cls : "") + '"' + (attrs || "") + '><span class="ic">' + a.icon + '</span><span class="nm">' + esc(a.name) + "</span>" + img + "</div>";
+  }
+
+  function f7PanelHtml(g, pid, myPend, pend) {
+    var p = g.pl[pid], active = p.status === "active";
+    var badge = "";
+    if (p.status === "busted") badge = '<span class="f7-badge bad">Elendi</span>';
+    else if (p.status === "stayed") badge = '<span class="f7-badge">Durdu</span>';
+    else if (p.status === "frozen") badge = '<span class="f7-badge ice">Donduruldu</span>';
+    else if (g.phase === "playing" && g.turn === pid && !pend) badge = '<span class="f7-badge turn">Sırada</span>';
+    if (p.doubled) badge += '<span class="f7-badge dbl">x2</span>';
+    var nums = p.cards.map(function (c) {
+      var sel = "";
+      if (myPend && active) {
+        if (pend.type === "swap") {
+          if (pid === myPid) sel = "sel" + (f7SelOwn === c.id ? " chosen" : "");
+          else if (f7SelOwn !== null) sel = "sel";
+        } else if (pend.type === "burn") sel = "sel";
+      }
+      return f7CardHtml(c, sel, ' data-pid="' + pid + '" data-id="' + c.id + '"');
+    }).join("") || '<span class="f7-empty">Henüz kart yok</span>';
+    var acts = p.actions.map(function (a) {
+      var sel = "";
+      if (myPend && active && pend.type === "burn" && !a.used && (a.t === "second" || a.t === "double")) sel = "sel";
+      return f7CardHtml(a, ((a.used ? "used " : "") + sel).trim(), ' data-pid="' + pid + '" data-id="' + a.id + '"');
+    }).join("") || '<span class="f7-empty">—</span>';
+    var live = p.status === "busted" ? 0 : f7Sum(p);
+    return '<div class="f7-head"><div><span class="f7-name">' + esc(bkName(pid)) + "</span>" + badge + '</div><div class="f7-bank">Kasa <b>' + ((g.scores && g.scores[pid]) || 0) + "</b> / " + g.target + "</div></div>" +
+      '<div class="f7-live">Bu el: ' + live + " puan · Sayı kartları " + p.cards.length + "/7</div>" +
+      '<div class="f7-cols"><div><div class="f7-col-label">Çekilen kartlar</div><div class="f7-nums">' + nums + '</div></div><div><div class="f7-col-label">Aksiyon kartları</div><div class="f7-acts">' + acts + "</div></div></div>";
+  }
+
+  var F7_WHY = { busted: "elendi", seven: "7 karta ulaştı", stayed: "durdu", frozen: "dondurulmuştu", ended: "el sona erdi", doublefail: "İkiye Katla tutmadı" };
+
+  function renderF7() {
+    goScreen("f7-play");
+    var g = state.games.f7;
+    var me = myPid, opp = otherPid(myPid);
+    var playing = g.phase === "playing";
+    var pend = playing ? g.pend : null;
+    var myPend = !!pend && pend.by === me;
+    if (!(myPend && pend.type === "swap")) f7SelOwn = null;
+
+    var pm = g.pl[me], po = g.pl[opp];
+    $("f7PanelMe").className = "f7-panel" + (playing && g.turn === me ? " turn" : "") + (pm.status === "busted" ? " bust" : "");
+    $("f7PanelOpp").className = "f7-panel" + (playing && g.turn === opp ? " turn" : "") + (po.status === "busted" ? " bust" : "");
+    $("f7PanelMe").innerHTML = f7PanelHtml(g, me, myPend, pend);
+    $("f7PanelOpp").innerHTML = f7PanelHtml(g, opp, myPend, pend);
+    ukHideBroken($("f7Board"));
+
+    $("f7Meta").textContent = g.round + ". el · Deste: " + (g.deckCount || 0) + " kart · Hedef: " + g.target;
+    $("f7Log").textContent = g.log || "";
+
+    var myTurn = playing && g.turn === me && !pend && pm.status === "active";
+    var status = "";
+    if (playing) {
+      if (pend) {
+        if (myPend) {
+          if (pend.type === "freeze") status = "Dondurmak istediğin oyuncuyu seç";
+          else if (pend.type === "swap") status = f7SelOwn === null ? "Takas: önce kendi sayı kartını seç" : "Şimdi rakibin takas edeceğin kartını seç";
+          else status = "Yakmak istediğin kartı seç";
+        } else status = bkName(pend.by) + " " + f7ActName(pend.type) + " için hedef seçiyor…";
+      } else if (pm.status !== "active") status = pm.status === "busted" ? "Elendin — rakibin oynuyor" : "Bu el için işin bitti — rakibin oynuyor";
+      else if (g.turn === me) status = pm.doubled ? "Sıra sende — İkiye Katla aktif: durma hakkın yok, 7 karta ulaşmalısın" : "Sıra sende — kart çek ya da dur";
+      else status = bkName(g.turn) + " oynuyor…";
+    }
+    $("f7Status").textContent = status;
+
+    $("f7DrawBtn").disabled = !myTurn;
+    $("f7StayBtn").disabled = !(myTurn && !pm.doubled && pm.drawn >= 1);
+    $("f7StayBtn").textContent = "Dur (+" + f7Sum(pm) + ")";
+    var showBtns = playing;
+    $("f7DrawBtn").classList.toggle("hidden", !showBtns || (myPend && pend.type === "freeze"));
+    $("f7StayBtn").classList.toggle("hidden", !showBtns || (myPend && pend.type === "freeze"));
+    var fz = myPend && pend.type === "freeze";
+    $("f7FreezeOppBtn").classList.toggle("hidden", !fz);
+    $("f7FreezeSelfBtn").classList.toggle("hidden", !fz);
+    $("f7FreezeOppBtn").textContent = bkName(opp) + " oyuncusunu dondur";
+
+    var resultBox = g.phase === "roundover";
+    $("f7ResultBox").classList.toggle("hidden", !resultBox);
+    $("f7Btns").classList.toggle("hidden", resultBox);
+    if (resultBox) {
+      var r = g.result;
+      var banner = g.gameWinner ? (g.gameWinner === me ? "🏆 Oyunu kazandın!" : "Oyunu kaybettin.") : "El bitti";
+      $("f7ResultBanner").textContent = banner;
+      $("f7ResultRows").innerHTML = [me, opp].map(function (pid) {
+        return "<div><b>" + esc(bkName(pid)) + "</b> — " + F7_WHY[r.why[pid]] + ": <b>+" + r.pts[pid] + "</b> (kasa " + g.scores[pid] + ")</div>";
+      }).join("");
+      $("f7NextBtn").textContent = g.gameWinner ? "Sonucu Gör" : "Sonraki El";
+    }
+  }
+
+  $("f7Board").addEventListener("click", function (e) {
+    var el = e.target && e.target.closest ? e.target.closest(".f7-card.sel") : null;
+    if (!el || !state || !state.games.f7) return;
+    var g = state.games.f7;
+    if (g.phase !== "playing" || !g.pend || g.pend.by !== myPid) return;
+    var pid = el.getAttribute("data-pid"), id = parseInt(el.getAttribute("data-id"), 10);
+    if (g.pend.type === "swap") {
+      if (pid === myPid) { f7SelOwn = id; renderF7(); }
+      else if (f7SelOwn !== null) { var own = f7SelOwn; f7SelOwn = null; sendAction("f7Swap", { own: own, other: id }); renderF7(); }
+    } else if (g.pend.type === "burn") {
+      sendAction("f7Burn", { target: pid, cardId: id });
+    }
+  });
+  $("f7DrawBtn").addEventListener("click", function () { sendAction("f7Draw", {}); });
+  $("f7StayBtn").addEventListener("click", function () { sendAction("f7Stay", {}); });
+  $("f7FreezeOppBtn").addEventListener("click", function () { sendAction("f7Freeze", { target: otherPid(myPid) }); });
+  $("f7FreezeSelfBtn").addEventListener("click", function () { sendAction("f7Freeze", { target: myPid }); });
+  $("f7NextBtn").addEventListener("click", function () {
+    var g = state && state.games.f7;
+    sendAction(g && g.gameWinner ? "f7Finish" : "f7Next", {});
+  });
+
   // ================= HUB =================
   function renderHub(code) {
     goScreen("hub");
@@ -2117,7 +2555,7 @@
   $("leaveBtnHub").addEventListener("click", leaveRoom);
 
   // ================= GAME OVER (generic) =================
-  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas", omb: "O mu bu mu?", bk: "Ben kimim?", uk: "Kart Oyunu" };
+  var GAME_TITLES = { ihb: "\u0130sim, \u015eehir, Hayvan, Bitki", xox: "XOX", rps: "Ta\u015f, Ka\u011f\u0131t, Makas", omb: "O mu bu mu?", bk: "Ben kimim?", uk: "Kart Oyunu", f7: "Fit 7" };
   function renderGameOver() {
     goScreen("gameover");
     if (uiTimerInterval) { clearInterval(uiTimerInterval); uiTimerInterval = null; }
@@ -2185,6 +2623,9 @@
     } else if (state.activeGame === "uk") {
       if (g.phase === "gameover") renderGameOver();
       else renderUk();
+    } else if (state.activeGame === "f7") {
+      if (g.phase === "gameover") renderGameOver();
+      else renderF7();
     } else if (state.activeGame === "bk") {
       if (g.phase === "setup") renderBkSetup();
       else if (g.phase === "gameover") renderGameOver();
@@ -2215,7 +2656,7 @@
     if (peer) { try { peer.destroy(); } catch (e) {} peer = null; }
     clearOmbTimeout();
     bkMyChar = ""; bkSetupKey = null; bkMode = "ask"; bkRevealSentKey = null;
-    ukHands = { host: [], guest: [] }; ukDeck = []; ukDiscard = []; ukGuestHand = []; ukPickId = null;
+    ukHands = { host: [], guest: [] }; ukDeck = []; ukDiscard = []; ukGuestHand = []; ukPickId = null; f7Deck = []; f7SelOwn = null;
     state = null; role = null; myPid = null; myFinished = false; localAnswers = {};
     hostRpsSecrets = {}; myRpsPicked = null; currentGameoverGame = null; currentRoomCode = null;
     localStorage.removeItem("mca_room");
